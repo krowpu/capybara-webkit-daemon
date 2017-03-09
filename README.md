@@ -39,3 +39,25 @@ xvfb-run -a bundle exec capybara-webkit-daemon
 ```
 
 This automatically sets up a virtual X server on a free server number.
+
+Installation
+------------
+
+Add the gem to your Gemfile:
+
+```ruby
+gem 'capybara-webkit-daemon`, github: 'krowpu/capybara-webkit-daemon'
+```
+
+Register new Capybara driver in `config/initializers/capybara_webkit_daemon.rb`:
+
+```ruby
+Capybara.register_driver :webkit_daemon do |app|
+  Capybara::Webkit::Driver.new(
+    app,
+    Capybara::Webkit::Configuration.to_hash.merge(
+      server: Capybara::Webkit::Daemon::Client::Server.new,
+    ),
+  )
+end
+```
