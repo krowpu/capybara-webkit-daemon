@@ -22,5 +22,6 @@ capybara-webkit requires Qt version 4.8 or greater.
 ### TL;DR if you're on Ubuntu Trusty (14.04)
 
 ```
+sudo apt-get update
 sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
 ```
