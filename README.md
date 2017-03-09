@@ -46,7 +46,7 @@ Installation
 Add the gem to your Gemfile:
 
 ```ruby
-gem 'capybara-webkit-daemon`, github: 'krowpu/capybara-webkit-daemon'
+gem 'capybara-webkit-daemon', github: 'krowpu/capybara-webkit-daemon'
 ```
 
 Register new Capybara driver in `config/initializers/capybara_webkit_daemon.rb`:
