@@ -25,3 +25,17 @@ capybara-webkit requires Qt version 4.8 or greater.
 sudo apt-get update
 sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
 ```
+
+Xvfb
+----
+
+On Linux platforms, capybara-webkit requires an X server to run,
+although it doesn't create any visible windows. Xvfb works fine for this.
+You can setup Xvfb yourself and set a DISPLAY variable or use the xvfb-run
+utility as follows:
+
+```
+xvfb-run -a bundle exec capybara-webkit-daemon
+```
+
+This automatically sets up a virtual X server on a free server number.
