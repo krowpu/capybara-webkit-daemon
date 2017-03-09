@@ -1,0 +1,39 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+$LOAD_PATH.unshift File.expand_path '../../lib', __FILE__
+
+require 'capybara/webkit/daemon/server/process'
+
+process = Capybara::Webkit::Daemon::Server::Process.new(
+  program_name: $PROGRAM_NAME,
+
+  argv: ARGV,
+  env:  ENV,
+
+  stdin:  $stdin,
+  stdout: $stdout,
+  stderr: $stderr,
+)
+
+trap :TERM do
+  process.signal_handler.sigterm!
+end
+
+trap :INT do
+  process.signal_handler.sigint!
+end
+
+trap :QUIT do
+  process.signal_handler.sigquit!
+end
+
+trap :HUP do
+  process.signal_handler.sighup!
+end
+
+begin
+  process.start
+rescue Exception # rubocop:disable Lint/RescueException
+  exit 1
+end

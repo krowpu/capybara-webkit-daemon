@@ -1,3 +1,27 @@
 Metrics/BlockLength:
   Exclude:
     - '**/*.gemspec'
+
+Metrics/LineLength:
+  Max: 120
+
+Style/AccessModifierIndentation:
+  EnforcedStyle: outdent
+
+Style/AndOr:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/PerlBackrefs:
+  Enabled: false
+
+Style/TrailingCommaInArguments:
+  EnforcedStyleForMultiline: comma
+
+Style/TrailingCommaInLiteral:
+  EnforcedStyleForMultiline: comma
+
+Style/VariableInterpolation:
+  Enabled: false
