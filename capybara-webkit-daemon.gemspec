@@ -14,8 +14,8 @@ Gem::Specification.new do |spec|
   spec.homepage = 'https://github.com/krowpu/capybara-webkit-daemon'
   spec.license  = 'MIT'
 
-  spec.authors = ['krowpu']
-  spec.email   = ['krowpu@tightmail.com']
+  spec.author = 'krowpu'
+  spec.email  = 'krowpu@tightmail.com'
 
   spec.description = <<-END.gsub(/^\s*/, '')
     Long-living Capybara Webkit server process which does not leak memory
