@@ -61,3 +61,12 @@ Capybara.register_driver :webkit_daemon do |app|
   )
 end
 ```
+
+Usage
+-----
+
+Create Capybara session with the following code:
+
+```ruby
+session = Capybara::Session.new :webkit_daemon
+```
