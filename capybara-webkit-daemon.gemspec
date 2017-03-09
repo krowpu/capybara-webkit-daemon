@@ -39,4 +39,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rake',    '~> 10.0'
   spec.add_development_dependency 'pry',     '~> 0.10'
   spec.add_development_dependency 'rubocop', '~> 0.47'
+
+  spec.add_runtime_dependency 'capybara',        '2.4.4'
+  spec.add_runtime_dependency 'capybara-webkit', '1.11.1'
 end
