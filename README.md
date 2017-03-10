@@ -9,6 +9,8 @@ Capybara Webkit causes `Errno::EMFILE: Too many open files` error.
 You ever can run it on machine different from where your worker is running.
 However in this case some features may not work (screenshots, for example).
 
+
+
 Qt Dependency
 -------------
 
@@ -25,6 +27,8 @@ capybara-webkit requires Qt version 4.8 or greater.
 sudo apt-get update
 sudo apt-get install qt5-default libqt5webkit5-dev gstreamer1.0-plugins-base gstreamer1.0-tools gstreamer1.0-x
 ```
+
+
 
 Xvfb
 ----
@@ -65,6 +69,7 @@ sudo service xvfb start
 ```
 
 
+
 Installation
 ------------
 
@@ -86,6 +91,8 @@ Capybara.register_driver :webkit_daemon do |app|
   )
 end
 ```
+
+
 
 Usage
 -----
