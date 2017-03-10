@@ -59,7 +59,7 @@ Also set variable `CHIUD` to `xvfb:xvfb`.
 
 ```
 DISPLAY=':99'
-CHUID='ubuntu:ubuntu'
+CHUID='xvfb:xvfb'
 ```
 
 Don't forget to start service:
