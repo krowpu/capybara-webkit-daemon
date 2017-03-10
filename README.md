@@ -19,7 +19,7 @@ the
 [capybara-webkit wiki](https://github.com/thoughtbot/capybara-webkit/wiki/Installing-Qt-and-compiling-capybara-webkit).
 capybara-webkit requires Qt version 4.8 or greater.
 
-### TL;DR if you're on Ubuntu Trusty (14.04)
+### TL;DR if you're on Ubuntu Xenial Xerus (16.04) LTS
 
 ```
 sudo apt-get update
