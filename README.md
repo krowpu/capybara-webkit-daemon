@@ -38,6 +38,13 @@ although it doesn't create any visible windows. Xvfb works fine for this.
 
 ### Easy way for Ubuntu Xenial Xerus (16.04) LTS
 
+Install Xvfb:
+
+```
+sudo apt-get update
+sudo apt-get install xvfb
+```
+
 Create user for the service:
 
 ```
