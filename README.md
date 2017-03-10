@@ -31,14 +31,39 @@ Xvfb
 
 On Linux platforms, capybara-webkit requires an X server to run,
 although it doesn't create any visible windows. Xvfb works fine for this.
-You can setup Xvfb yourself and set a DISPLAY variable or use the xvfb-run
-utility as follows:
+
+### Easy way for Ubuntu Xenial Xerus (16.04) LTS
+
+Create user for the service:
 
 ```
-xvfb-run -a bundle exec capybara-webkit-daemon
+sudo useradd --no-create-home --user-group xvfb
+sudo reboot
 ```
 
-This automatically sets up a virtual X server on a free server number.
+Install Xvfb init.d script:
+
+```
+sudo wget https://gist.githubusercontent.com/krowpu/e5b388e4640c679bf495769720609783/raw/94398b7211eb46649d0f73dc60a59b9be6fb6e14/xvfb.sh -O /etc/init.d/xvfb
+sudo chmod 755 /etc/init.d/xvfb
+sudo update-rc.d xvfb defaults
+sudo update-rc.d xvfb enable
+```
+
+By default display `:1` is used. You can set other value in `/etc/default/xvfb`.
+Also set variable `CHIUD` to `xvfb:xvfb`.
+
+```
+DISPLAY=':99'
+CHUID='ubuntu:ubuntu'
+```
+
+Don't forget to start service:
+
+```
+sudo service xvfb start
+```
+
 
 Installation
 ------------
