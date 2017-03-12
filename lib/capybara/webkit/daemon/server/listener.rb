@@ -14,14 +14,15 @@ module Capybara
         class Listener
           LISTEN_TIMEOUT = 1
 
-          attr_reader :logger, :port
+          attr_reader :logger, :binding, :port
 
           private :logger
 
           attr_reader :accepting_new_connections
 
-          def initialize(logger:, port:)
+          def initialize(logger:, binding:, port:)
             @logger = logger
+            @binding = binding.freeze
             @port = port&.freeze
 
             @mutex = Mutex.new
@@ -96,7 +97,7 @@ module Capybara
           end
 
           def server_sockets
-            @server_sockets ||= Socket.tcp_server_sockets(port).map do |socket|
+            @server_sockets ||= Socket.tcp_server_sockets(binding, port).map do |socket|
               socket.autoclose = false
               tcp_server = TCPServer.for_fd socket.fileno
               socket.close

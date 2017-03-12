@@ -22,6 +22,7 @@ module Capybara
             h = {}
 
             h[:log_level] = parse_log_level if env_log_level
+            h[:binding]   = env_binding     if env_binding
             h[:port]      = parse_port      if env_port
 
             @to_h = h.freeze
@@ -38,6 +39,10 @@ module Capybara
 
           def env_log_level
             env['CAPYBARA_WEBKIT_DAEMON_LOG_LEVEL']
+          end
+
+          def env_binding
+            env['CAPYBARA_WEBKIT_DAEMON_BINDING']
           end
 
           def env_port

@@ -63,7 +63,11 @@ module Capybara
         private
 
           def listener
-            @listener ||= Listener.new logger: logger, port: configuration.to_h[:port]
+            @listener ||= Listener.new(
+              logger: logger,
+              binding: configuration.to_h[:binding],
+              port: configuration.to_h[:port],
+            )
           end
 
           def close_output

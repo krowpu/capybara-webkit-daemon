@@ -13,6 +13,7 @@ module Capybara
             pid_file: nil,
             log_file: nil,
             log_level: :info,
+            binding: nil,
             port: Common::DEFAULT_PORT,
           }.freeze
 

@@ -44,6 +44,8 @@ module Capybara
               { log_level: :warn }.merge parse tokens.drop 1
             when '-D', '--debug'
               { log_level: :debug }.merge parse tokens.drop 1
+            when '-b', '--binding'
+              { binding: tokens[1] }.merge parse tokens.drop 2
             when '-p', '--port'
               { port: parse_port(tokens[1]) }.merge parse tokens.drop 2
             when '-L', '--logfile'
