@@ -13,8 +13,11 @@ module Capybara
         class Connection < Capybara::Webkit::Connection
           attr_reader :socket
 
-          def initialize
-            super server: Capybara::Webkit::Daemon::Server::Server.new(stderr: nil)
+          def initialize(configuration:)
+            super server: Capybara::Webkit::Daemon::Server::Server.new(
+              stderr: nil,
+              configuration: configuration,
+            )
           end
 
           def close

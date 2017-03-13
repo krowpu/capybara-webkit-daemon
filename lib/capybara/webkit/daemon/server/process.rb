@@ -68,6 +68,7 @@ module Capybara
 
           def listener
             @listener ||= Listener.new(
+              configuration: configuration,
               logger: logger,
               binding: configuration.to_h[:binding],
               port: configuration.to_h[:port],

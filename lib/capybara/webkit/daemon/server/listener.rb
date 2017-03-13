@@ -14,13 +14,14 @@ module Capybara
         class Listener
           LISTEN_TIMEOUT = 1
 
-          attr_reader :logger, :binding, :port
+          attr_reader :configuration, :logger, :binding, :port
 
           private :logger
 
           attr_reader :accepting_new_connections
 
-          def initialize(logger:, binding:, port:)
+          def initialize(configuration:, logger:, binding:, port:)
+            @configuration = configuration
             @logger = logger
             @binding = binding.freeze
             @port = port&.freeze
@@ -84,7 +85,7 @@ module Capybara
           def handle(client_socket)
             logger.debug "New connection from #{client_socket.peeraddr.inspect}"
 
-            connection = Connection.new
+            connection = Connection.new configuration: configuration
 
             link = new_link socket1: connection.socket, socket2: client_socket
             link.start
