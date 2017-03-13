@@ -7,70 +7,39 @@ module Capybara
     module Daemon
       module Server
         class Arguments
-          attr_reader :argv
+          attr_reader :option_parser
 
           def initialize(argv)
-            @argv = argv.map { |arg| arg.to_s.dup.freeze }.freeze
-          end
-
-          def tokenized
-            @tokenized ||= tokenize(argv).freeze
-          end
-
-          def parsed
-            @parsed ||= parse(tokenized).freeze
-          end
-
-          alias to_h parsed
-
-        private
-
-          def tokenize(args)
-            return [] if args.empty?
-
-            head, *tail = args
-
-            case head
-            when /\A-(\w)(.+)\z/ then ["-#$1", $2.freeze]
-            when /\A-(\w)\z/     then ["-#$1"]
-            when /\A--(.+)\z/    then ["--#$1"]
-            else                      [head]
-            end + tokenize(tail)
-          end
-
-          def parse(tokens) # rubocop:disable MethodLength, AbcSize, CyclomaticComplexity
-            return {} if tokens.empty?
-
-            case tokens.first
-            when '-q', '--quiet'
-              { log_level: :warn }.merge parse tokens.drop 1
-            when '-D', '--debug'
-              { log_level: :debug }.merge parse tokens.drop 1
-            when '-b', '--binding'
-              { binding: tokens[1] }.merge parse tokens.drop 2
-            when '-p', '--port'
-              { port: parse_port(tokens[1]) }.merge parse tokens.drop 2
-            when '-L', '--logfile'
-              { log_file: tokens[1] }.merge parse tokens.drop 2
-            when '-P', '--pidfile'
-              { pid_file: tokens[1] }.merge parse tokens.drop 2
-            else
-              raise
-            end
-          end
-
-          def parse_port(s)
-            raise unless s =~ /\A\d+\z/
-            s.to_i
+            @option_parser = OptionParser.new argv
           end
 
           class OptionParser < GoodOptionParser
-            on '-q', '--quiet',   'Be quiet'
-            on '-D', '--debug',   'Debug logging'
-            on '-b', '--binding', 'Bind to the specified IP'
-            on '-p', '--port',    'Run on the specified port'
-            on '-L', '--logfile', 'Specify the log file'
-            on '-P', '--pidfile', 'Specify the PID file'
+            PORT_RE = /\A\d+\z/
+
+            on '-q', '--quiet', 'Be quiet' do |h|
+              h.merge log_level: :warn
+            end
+
+            on '-D', '--debug', 'Debug logging' do |h|
+              h.merge log_level: :debug
+            end
+
+            on '-b', '--binding', 'Bind to the specified IP' do |h, arg|
+              h.merge binding: arg.()
+            end
+
+            on '-p', '--port', 'Run on the specified port' do |h, arg|
+              raise ArgumentError, 'invalid port format' unless arg.() =~ PORT_RE
+              h.merge port: arg.().to_i
+            end
+
+            on '-L', '--logfile', 'Specify the log file' do |h, arg|
+              h.merge log_file: arg.()
+            end
+
+            on '-P', '--pidfile', 'Specify the PID file' do |h, arg|
+              h.merge pid_file: arg.()
+            end
           end
         end
       end

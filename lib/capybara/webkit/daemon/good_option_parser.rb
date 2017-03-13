@@ -11,8 +11,6 @@ module Capybara
         end
 
         def self.on(*args, &block)
-          block ||= -> {}
-
           case args.length
           when 3
             on_both(*args, &block)
