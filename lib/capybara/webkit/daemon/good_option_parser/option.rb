@@ -15,6 +15,12 @@ module Capybara
             self.long = long
             self.description = description
             self.block = block
+
+            raise ArgumentError, 'no option keys' if self.short.nil? && self.long.nil?
+          end
+
+          def duplicate_of?(other)
+            short && short == other.short || long && long == other.long
           end
 
         private
