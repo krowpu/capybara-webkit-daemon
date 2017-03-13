@@ -21,6 +21,7 @@ module Capybara
 
           def has_long?
             @has_long ||= lines.any?(&:has_long?)
+          end
 
           class Line
             attr_reader :formatter, :option
