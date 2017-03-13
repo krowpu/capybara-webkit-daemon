@@ -20,6 +20,10 @@ module Capybara
           class OptionParser < GoodOptionParser
             PORT_RE = /\A\d+\z/
 
+            on '-h', '--help', 'Show this help' do |h|
+              h.merge help: true
+            end
+
             on '-q', '--quiet', 'Be quiet' do |h|
               h.merge log_level: :warn
             end

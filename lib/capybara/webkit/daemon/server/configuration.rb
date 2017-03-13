@@ -10,6 +10,7 @@ module Capybara
       module Server
         class Configuration
           DEFAULTS = {
+            help: false,
             pid_file: nil,
             log_file: nil,
             log_level: :info,
