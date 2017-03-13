@@ -12,7 +12,7 @@ module Capybara
           end
 
           def <<(new_option)
-            raise TypeError unless new_option.is_a? Option
+            raise TypeError, "expected option to be a #{Option}" unless new_option.is_a? Option
 
             @options.each do |option|
               raise ArgumentError, 'duplicate option' if new_option.duplicate_of? option
