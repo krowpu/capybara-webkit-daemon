@@ -55,8 +55,9 @@ module Capybara
 
         attr_reader :argv
 
-        def initialize(argv)
+        def initialize(argv, initial)
           self.argv = argv
+          @initial = initial
         end
 
         def tokenized
@@ -64,6 +65,8 @@ module Capybara
         end
 
       private
+
+        attr_reader :initial
 
         def argv=(argv)
           @argv = argv.map do |arg|

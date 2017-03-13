@@ -10,7 +10,7 @@ module Capybara
           attr_reader :option_parser
 
           def initialize(argv)
-            @option_parser = OptionParser.new argv
+            @option_parser = OptionParser.new argv, {}
           end
 
           class OptionParser < GoodOptionParser
