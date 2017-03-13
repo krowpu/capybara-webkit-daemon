@@ -15,12 +15,27 @@ module Capybara
             ''
           end
 
+          def has_short?
+            @has_short ||= options.any?(&:has_short?)
+          end
+
+          def has_long?
+            @has_long ||= options.any?(&:has_long?)
+
           class Line
             attr_reader :formatter, :option
 
             def initialize(formatter, option)
               @formatter = formatter
               @option = option
+            end
+
+            def has_short?
+              @has_short ||= !option.short.nil?
+            end
+
+            def has_long?
+              @has_long ||= !option.long.nil?
             end
           end
         end
