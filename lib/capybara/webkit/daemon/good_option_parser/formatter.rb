@@ -8,11 +8,19 @@ module Capybara
           attr_reader :options
 
           def initialize(options)
-            @options = options.dup.freeze
+            @options = options.map { |option| Line.new option }.freeze
           end
 
           def call
             ''
+          end
+
+          class Line
+            attr_reader :option
+
+            def initialize(option)
+              @option = option
+            end
           end
         end
       end
