@@ -40,6 +40,10 @@ module Capybara
             logger.info "Running in #{RUBY_DESCRIPTION}"
             logger.debug "Configuration: #{configuration.to_h.inspect}"
 
+            if configuration.to_h[:help]
+              return stderr.print Arguments::OptionParser.options.description
+            end
+
             pid_file&.create
 
             listener.start
