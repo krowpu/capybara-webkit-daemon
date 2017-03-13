@@ -5,10 +5,10 @@ module Capybara
     module Daemon
       class GoodOptionParser
         class Formatter
-          attr_reader :options
+          attr_reader :lines
 
           def initialize(options)
-            @options = options.map { |option| Line.new self, option }.freeze
+            @lines = options.map { |option| Line.new self, option }.freeze
           end
 
           def call
@@ -16,11 +16,11 @@ module Capybara
           end
 
           def has_short?
-            @has_short ||= options.any?(&:has_short?)
+            @has_short ||= lines.any?(&:has_short?)
           end
 
           def has_long?
-            @has_long ||= options.any?(&:has_long?)
+            @has_long ||= lines.any?(&:has_long?)
 
           class Line
             attr_reader :formatter, :option
