@@ -19,6 +19,7 @@ module Capybara
 
           class OptionParser < GoodOptionParser
             PORT_RE = /\A\d+\z/
+            DISPLAY_RE = /\A:\d+\z/
 
             on '-h', '--help', 'Show this help' do |h|
               h.merge help: true
@@ -48,6 +49,12 @@ module Capybara
 
             on '-P', '--pidfile', 'Specify the PID file' do |h, arg|
               h.merge pid_file: arg.()
+            end
+
+            on '-d', '--display', 'Specify Xvfb display' do |h, arg|
+              arg = arg.()
+              raise ArgumentError, 'invalid display format' unless arg =~ DISPLAY_RE
+              h.merge display: arg
             end
           end
         end

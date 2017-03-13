@@ -16,6 +16,7 @@ module Capybara
             log_level: :info,
             binding: nil,
             port: Common::DEFAULT_PORT,
+            display: nil,
           }.freeze
 
           attr_reader :argv, :env
