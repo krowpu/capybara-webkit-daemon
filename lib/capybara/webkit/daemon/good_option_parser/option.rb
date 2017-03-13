@@ -38,7 +38,6 @@ module Capybara
           end
 
           def block=(block)
-            return @block = nil if block.nil?
             raise TypeError, 'expected block to be a Proc' unless block.is_a? Proc
             @block = block
           end
