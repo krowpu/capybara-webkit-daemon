@@ -90,10 +90,13 @@ Register new Capybara driver in `config/initializers/capybara_webkit_daemon.rb`:
 
 ```ruby
 Capybara.register_driver :webkit_daemon do |app|
-  Capybara::Webkit::Driver.new(
+  Capybara::Webkit::Daemon::Client::Driver.new(
     app,
     Capybara::Webkit::Configuration.to_hash.merge(
-      server: Capybara::Webkit::Daemon::Client::Server.new,
+      server: Capybara::Webkit::Daemon::Client::Server.new(
+        host: ENV['CAPYBARA_WEBKIT_DAEMON_HOST'],
+        port: ENV['CAPYBARA_WEBKIT_DAEMON_PORT'].to_i,
+      ),
     ),
   )
 end

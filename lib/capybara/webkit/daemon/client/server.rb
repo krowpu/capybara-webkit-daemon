@@ -7,11 +7,13 @@ module Capybara
     module Daemon
       module Client
         class Server
-          attr_reader :port
+          attr_reader :host, :port
 
-          def initialize(port: Common::DEFAULT_PORT)
+          def initialize(host: '127.0.0.1', port: Common::DEFAULT_PORT)
+            raise TypeError unless host.is_a? String
             raise TypeError unless port.is_a? Integer
 
+            @host = host.dup.freeze
             @port = port
           end
 
