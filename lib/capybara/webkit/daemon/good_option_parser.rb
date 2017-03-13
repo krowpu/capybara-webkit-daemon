@@ -52,6 +52,38 @@ module Capybara
         def self.on_long(long, description = nil, &block)
           options << Option.new(nil, long, description, &block)
         end
+
+        attr_reader :argv
+
+        def initialize(argv)
+          self.argv = argv
+        end
+
+        def tokenized
+          @tokenized ||= tokenize(argv).freeze
+        end
+
+      private
+
+        def argv=(argv)
+          @argv = argv.map do |arg|
+            raise TypeError unless arg.is_a? String
+            arg.dup.freeze
+          end.freeze
+        end
+
+        def tokenize(args)
+          return [] if args.empty?
+
+          head, *tail = args
+
+          case head
+          when /\A-(\w)(.+)\z/ then ["-#$1", $2.freeze]
+          when /\A-(\w)\z/     then ["-#$1"]
+          when /\A--(.+)\z/    then ["--#$1"]
+          else                      [head]
+          end + tokenize(tail)
+        end
       end
     end
   end
