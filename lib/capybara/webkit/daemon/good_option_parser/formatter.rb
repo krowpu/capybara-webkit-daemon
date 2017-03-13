@@ -8,7 +8,7 @@ module Capybara
           attr_reader :options
 
           def initialize(options)
-            @options = options.map { |option| Line.new option }.freeze
+            @options = options.map { |option| Line.new self, option }.freeze
           end
 
           def call
@@ -16,9 +16,10 @@ module Capybara
           end
 
           class Line
-            attr_reader :option
+            attr_reader :formatter, :option
 
-            def initialize(option)
+            def initialize(formatter, option)
+              @formatter = formatter
               @option = option
             end
           end
