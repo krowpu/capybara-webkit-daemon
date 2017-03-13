@@ -96,7 +96,7 @@ RSpec.describe Capybara::Webkit::Daemon::GoodOptionParser::Options do
 
   describe '#description' do
     it 'returns proper description' do
-      expect(subject.description).to eq <<-END.gsub(/^\s*/, ' ' * 4)
+      expect(subject.description).to eq <<-END.gsub(/^\s{8}/, ' ' * 4)
         -a               Foo
         -b, --binding    Bind to the specified IP
             --aaa        Bar
