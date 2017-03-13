@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'capybara/webkit/daemon/good_option_parser/option'
+require 'capybara/webkit/daemon/good_option_parser/formatter'
 
 module Capybara
   module Webkit
@@ -27,6 +28,10 @@ module Capybara
             end
 
             nil
+          end
+
+          def description
+            Formatter.new(@options).call
           end
         end
       end
