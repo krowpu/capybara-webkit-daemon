@@ -33,8 +33,9 @@ module Capybara
             end
 
             on '-p', '--port', 'Run on the specified port' do |h, arg|
-              raise ArgumentError, 'invalid port format' unless arg.() =~ PORT_RE
-              h.merge port: arg.().to_i
+              arg = arg.()
+              raise ArgumentError, 'invalid port format' unless arg =~ PORT_RE
+              h.merge port: arg.to_i
             end
 
             on '-L', '--logfile', 'Specify the log file' do |h, arg|

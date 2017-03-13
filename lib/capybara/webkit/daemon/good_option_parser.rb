@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'capybara/webkit/daemon/good_option_parser/options'
+require 'capybara/webkit/daemon/good_option_parser/parser'
 
 module Capybara
   module Webkit
@@ -64,6 +65,7 @@ module Capybara
         end
 
         def parse(initial)
+          Parser.new(self.class.options, tokenized, initial).config
         end
 
       private
