@@ -17,6 +17,9 @@ Style/AndOr:
 Style/Documentation:
   Enabled: false
 
+Style/LambdaCall:
+  Enabled: false
+
 Style/PerlBackrefs:
   Enabled: false
 
