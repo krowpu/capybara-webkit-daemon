@@ -31,13 +31,13 @@ module Capybara
 
           def short=(s)
             return @short = nil if s.nil?
-            raise ArgumentError, 'invalid short option' unless s =~ SHORT_RE
+            raise ArgumentError, 'invalid short option key' unless s =~ SHORT_RE
             @short = s.dup.freeze
           end
 
           def long=(s)
             return @long = nil if s.nil?
-            raise ArgumentError, 'invalid long option' unless s =~ LONG_RE
+            raise ArgumentError, 'invalid long option key' unless s =~ LONG_RE
             @long = s.dup.freeze
           end
 
