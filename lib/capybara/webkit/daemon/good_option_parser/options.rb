@@ -20,6 +20,14 @@ module Capybara
 
             @options << new_option
           end
+
+          def match(token)
+            @options.each do |option|
+              return option if option.match? token
+            end
+
+            nil
+          end
         end
       end
     end

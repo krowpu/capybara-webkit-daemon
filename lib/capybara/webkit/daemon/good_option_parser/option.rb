@@ -23,6 +23,10 @@ module Capybara
             short && short == other.short || long && long == other.long
           end
 
+          def match?(token)
+            token && (token == short || token == long)
+          end
+
         private
 
           def short=(s)
