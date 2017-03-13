@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'capybara/webkit/daemon/good_option_parser'
+
 module Capybara
   module Webkit
     module Daemon
@@ -60,6 +62,15 @@ module Capybara
           def parse_port(s)
             raise unless s =~ /\A\d+\z/
             s.to_i
+          end
+
+          class OptionParser < GoodOptionParser
+            on '-q', '--quiet',   'Be quiet'
+            on '-D', '--debug',   'Debug logging'
+            on '-b', '--binding', 'Bind to the specified IP'
+            on '-p', '--port',    'Run on the specified port'
+            on '-L', '--logfile', 'Specify the log file'
+            on '-P', '--pidfile', 'Specify the PID file'
           end
         end
       end
