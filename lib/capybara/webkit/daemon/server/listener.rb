@@ -14,17 +14,15 @@ module Capybara
         class Listener
           LISTEN_TIMEOUT = 1
 
-          attr_reader :configuration, :logger, :binding, :port
+          attr_reader :configuration, :logger
 
           private :logger
 
           attr_reader :accepting_new_connections
 
-          def initialize(configuration:, logger:, binding:, port:)
+          def initialize(configuration:, logger:)
             @configuration = configuration
             @logger = logger
-            @binding = binding.freeze
-            @port = port&.freeze
 
             @mutex = Mutex.new
             @links = Set.new
@@ -55,6 +53,14 @@ module Capybara
             stop_accepting_new_connections!
             logger.info 'Terminating connections...'
             terminate_links
+          end
+
+          def binding
+            @binding ||= configuration.to_h[:binding]
+          end
+
+          def port
+            @port ||= configuration.to_h[:port]
           end
 
         private
