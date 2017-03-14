@@ -14,26 +14,18 @@ module Capybara
         class Process
           attr_reader :program_name, :argv, :env, :stdin, :stdout, :stderr
 
-          def initialize(program_name:, # rubocop:disable ParameterLists, MethodLength, AbcSize
+          def initialize(program_name:, # rubocop:disable Metrics/ParameterLists
                          argv:,
                          env:,
                          stdin:,
                          stdout:,
                          stderr:)
-            @program_name = program_name.to_s.dup.freeze
-
-            @argv = argv.map { |arg| arg.to_s.dup.freeze }.freeze
-
-            @env = env.map do |k, v|
-              [
-                k.to_s.dup.freeze,
-                v.to_s.dup.freeze,
-              ]
-            end.to_h.freeze
-
-            @stdin  = stdin
-            @stdout = stdout
-            @stderr = stderr
+            self.program_name = program_name
+            self.argv = argv
+            self.env = env
+            self.stdin = stdin
+            self.stdout = stdout
+            self.stderr = stderr
           end
 
           def start # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
@@ -65,6 +57,25 @@ module Capybara
           end
 
         private
+
+          attr_writer :stdin, :stdout, :stderr
+
+          def program_name=(program_name)
+            @program_name = program_name.to_s.dup.freeze
+          end
+
+          def argv=(argv)
+            @argv = argv.map { |arg| arg.to_s.dup.freeze }.freeze
+          end
+
+          def env=(env)
+            @env = env.map do |k, v|
+              [
+                k.to_s.dup.freeze,
+                v.to_s.dup.freeze,
+              ]
+            end.to_h.freeze
+          end
 
           def listener
             @listener ||= Listener.new(
