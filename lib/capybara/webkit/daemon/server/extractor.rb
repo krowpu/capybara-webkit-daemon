@@ -32,7 +32,7 @@ module Capybara
           def scan(s)
             start = 0
 
-            s.each_char.each_with_index do |c, i|
+            s.chars.each_index do |i|
               next binary_chr s, start, i if state == :binary_msg
               start = control_chr s, start, i
             end
