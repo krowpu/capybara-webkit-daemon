@@ -13,7 +13,7 @@ module Capybara
             @app = app
             @options = options.dup
             @options[:server] ||= Server.new(options)
-            @browser = options[:browser] || Browser.new(Capybara::Webkit::Daemon::Client::Connection.new(@options))
+            @browser = options[:browser] || Browser.new(Connection.new(@options))
             apply_options
           end
         end
