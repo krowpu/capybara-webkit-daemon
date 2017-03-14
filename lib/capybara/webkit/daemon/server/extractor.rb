@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'capybara/webkit/daemon/common'
 require 'capybara/webkit/daemon/server/wrapper'
 
 module Capybara
@@ -25,9 +26,9 @@ module Capybara
 
             s.each_char.each_with_index do |c, i|
               case c
-              when "\x02"
+              when Common::START_CHR
                 start = scan_msg_start s, start, i
-              when "\x03"
+              when Common::END_CHR
                 start = scan_msg_end s, start, i
               end
             end

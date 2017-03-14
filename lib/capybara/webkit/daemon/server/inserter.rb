@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'capybara/webkit/daemon/common'
 require 'capybara/webkit/daemon/server/wrapper'
 
 module Capybara
@@ -11,7 +12,7 @@ module Capybara
         #
         class Inserter < Wrapper
           def insert(s)
-            raw "\x02#{s}\x03"
+            raw "#{Common::START_CHR}#{s}#{Common::END_CHR}"
           end
         end
       end
