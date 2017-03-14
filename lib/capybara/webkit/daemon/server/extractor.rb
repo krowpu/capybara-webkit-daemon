@@ -44,8 +44,7 @@ module Capybara
                 next
               end
 
-              new_start = control_chr s, start, i
-              start = new_start if new_start
+              start = control_chr s, start, i
             end
 
             breaks s[start..-1]
@@ -59,6 +58,8 @@ module Capybara
               scan_msg_start s, start, i
             when Common::END_CHR
               scan_msg_end s, start, i
+            else
+              start
             end
           end
 
