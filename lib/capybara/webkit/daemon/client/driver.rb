@@ -3,6 +3,7 @@
 require 'capybara/webkit/driver'
 
 require 'capybara/webkit/daemon/client/connection'
+require 'capybara/webkit/daemon/client/browser'
 
 module Capybara
   module Webkit
