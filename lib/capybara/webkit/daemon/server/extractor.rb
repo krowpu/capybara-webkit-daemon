@@ -66,7 +66,13 @@ module Capybara
 
           def scan_msg_start(s, start, i)
             raise unless state == :raw || state == :header
-            msg_starts s[start...i]
+
+            if state == :raw
+              msg_starts s[start...i]
+            elsif state == :header
+              binary_msg_starts s[start...i]
+            end
+
             i + 1
           end
 
@@ -91,16 +97,18 @@ module Capybara
           def msg_starts(s)
             raw s unless s.empty?
 
-            if state == :raw
-              self.state = :msg
-            elsif state == :header
-              self.state = :binary_msg
-              header = @header + s
-              @header = nil
-              raise unless header =~ /\A\d+\z/
-              @size = header.to_i
-            end
+            self.state = :msg
+            @message = ''
+          end
 
+          def binary_msg_starts(s)
+            raw s unless s.empty?
+
+            self.state = :binary_msg
+            header = @header + s
+            @header = nil
+            raise unless header =~ /\A\d+\z/
+            @size = header.to_i
             @message = ''
           end
 
