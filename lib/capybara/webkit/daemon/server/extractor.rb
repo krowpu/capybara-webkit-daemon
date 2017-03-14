@@ -11,8 +11,12 @@ module Capybara
         # Extracts high-level packages from wrapped text protocol.
         #
         class Extractor < Wrapper
+          STATES = %i(raw header msg binary_msg).freeze
+
           def initialize(*)
             super
+
+            self.state = :raw
 
             @message = nil
           end
@@ -67,6 +71,17 @@ module Capybara
               raw s
             else
               @message += s
+            end
+          end
+
+        private
+
+          def state=(sym)
+            unless STATES.include? sym
+              raise(
+                ArgumentError,
+                "invalid state #{sym.inspect}, possible are #{STATES.map(&:inspect).join(', ')}"
+              )
             end
           end
         end
