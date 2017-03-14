@@ -18,7 +18,7 @@ module Capybara
 
         private
 
-          def got(s); end
+          def extracted(s); end
 
           def scan(s)
             start = 0
@@ -55,7 +55,7 @@ module Capybara
           def msg_ends(s)
             raise if @message.nil?
 
-            got @message + s
+            extracted @message + s
             @message = nil
           end
 
