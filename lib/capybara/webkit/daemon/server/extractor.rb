@@ -44,17 +44,22 @@ module Capybara
                 next
               end
 
-              case c
-              when Common::HEADER_CHR
-                start = scan_header_start s, start, i
-              when Common::START_CHR
-                start = scan_msg_start s, start, i
-              when Common::END_CHR
-                start = scan_msg_end s, start, i
-              end
+              new_start = control_chr s, start, i
+              start = new_start if new_start
             end
 
             breaks s[start..-1]
+          end
+
+          def control_chr(s, start, i)
+            case s[i]
+            when Common::HEADER_CHR
+              scan_header_start s, start, i
+            when Common::START_CHR
+              scan_msg_start s, start, i
+            when Common::END_CHR
+              scan_msg_end s, start, i
+            end
           end
 
           def scan_header_start(s, start, i)
