@@ -3,6 +3,7 @@
 require 'logger'
 
 require 'capybara/webkit/daemon/server/configuration'
+require 'capybara/webkit/daemon/server/streams'
 require 'capybara/webkit/daemon/server/pid_file'
 require 'capybara/webkit/daemon/server/signal_handler'
 require 'capybara/webkit/daemon/server/listener'
@@ -88,8 +89,11 @@ module Capybara
 
           def close_output
             logger.close
-            stdout.close unless stdout.closed?
-            stderr.close unless stderr.closed?
+            streams.close
+          end
+
+          def streams
+            @streams ||= Streams.new stdin: stdin, stdout: stdout, stderr: stderr
           end
 
           def pid_file
