@@ -49,10 +49,13 @@ module Capybara
             case s[i]
             when Common::HEADER_CHR
               scan_header_start s, start, i
+              i + 1
             when Common::START_CHR
               scan_msg_start s, start, i
+              i + 1
             when Common::END_CHR
               scan_msg_end s, start, i
+              i + 1
             else
               start
             end
@@ -61,7 +64,6 @@ module Capybara
           def scan_header_start(s, start, i)
             raise unless state == :raw
             header_starts s[start...i]
-            i + 1
           end
 
           def scan_msg_start(s, start, i)
@@ -72,14 +74,11 @@ module Capybara
             elsif state == :header
               binary_msg_starts s[start...i]
             end
-
-            i + 1
           end
 
           def scan_msg_end(s, start, i)
             raise unless state == :msg || state == :binary_msg
             msg_ends s[start...i]
-            i + 1
           end
 
           def scan_binary_msg_end(s, start, i)
