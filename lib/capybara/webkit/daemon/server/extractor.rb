@@ -59,16 +59,19 @@ module Capybara
           end
 
           def scan_header_start(s, start, i)
+            raise unless state == :raw
             header_starts s[start...i]
             i + 1
           end
 
           def scan_msg_start(s, start, i)
+            raise unless state == :raw || state == :header
             msg_starts s[start...i]
             i + 1
           end
 
           def scan_msg_end(s, start, i)
+            raise unless state == :msg || state == :binary_msg
             msg_ends s[start...i]
             i + 1
           end
@@ -79,8 +82,6 @@ module Capybara
           end
 
           def header_starts(s)
-            raise unless state == :raw
-
             raw s unless s.empty?
 
             self.state = :header
@@ -88,8 +89,6 @@ module Capybara
           end
 
           def msg_starts(s)
-            raise unless state == :raw || state == :header
-
             raw s unless s.empty?
 
             if state == :raw
@@ -106,8 +105,6 @@ module Capybara
           end
 
           def msg_ends(s)
-            raise unless state == :msg || state == :binary_msg
-
             extracted @message + s
 
             self.state = :raw
