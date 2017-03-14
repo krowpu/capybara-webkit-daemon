@@ -35,12 +35,7 @@ module Capybara
             s.each_char.each_with_index do |c, i|
               if state == :binary_msg
                 @size -= 1
-
-                if @size.negative?
-                  raise unless c == Common::END_CHR
-                  scan_msg_end s, start, i
-                end
-
+                scan_binary_msg_end s, start, i if @size.negative?
                 next
               end
 
@@ -76,6 +71,11 @@ module Capybara
           def scan_msg_end(s, start, i)
             msg_ends s[start...i]
             i + 1
+          end
+
+          def scan_binary_msg_end(s, start, i)
+            raise unless s[i] == Common::END_CHR
+            scan_msg_end s, start, i
           end
 
           def header_starts(s)
