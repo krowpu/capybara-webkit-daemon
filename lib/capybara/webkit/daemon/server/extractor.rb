@@ -127,8 +127,6 @@ module Capybara
             end
           end
 
-        private
-
           def state=(sym)
             unless STATES.include? sym
               raise(
