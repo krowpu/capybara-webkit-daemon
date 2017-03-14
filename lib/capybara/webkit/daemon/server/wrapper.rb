@@ -26,7 +26,7 @@ module Capybara
 
           def round
             data = source.read_nonblock block_size
-            destination.write data unless data.empty?
+            raw data
           rescue IO::WaitReadable
             IO.select [source], nil, nil, timeout
           end
@@ -50,6 +50,10 @@ module Capybara
           end
 
         private
+
+          def raw(s)
+            destination.write s unless s.empty?
+          end
 
           def source=(io)
             raise TypeError, "expected source to be an #{IO}" unless io.is_a? IO
