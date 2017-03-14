@@ -33,16 +33,16 @@ module Capybara
             start = 0
 
             s.each_char.each_with_index do |c, i|
-              if state == :binary_msg
-                @size -= 1
-                scan_binary_msg_end s, start, i if @size.negative?
-                next
-              end
-
+              next binary_chr s, start, i if state == :binary_msg
               start = control_chr s, start, i
             end
 
             breaks s[start..-1]
+          end
+
+          def binary_chr(s, start, i)
+            @size -= 1
+            scan_binary_msg_end s, start, i if @size.negative?
           end
 
           def control_chr(s, start, i)
