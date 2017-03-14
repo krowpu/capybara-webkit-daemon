@@ -53,14 +53,15 @@ module Capybara
             case s[i]
             when Common::HEADER_CHR
               scan_header_start s[start...i]
-              true
             when Common::START_CHR
               scan_msg_start s[start...i]
-              true
             when Common::END_CHR
               scan_msg_end s[start...i]
-              true
+            else
+              return false
             end
+
+            true
           end
 
           def scan_header_start(s)
