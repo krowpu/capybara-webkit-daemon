@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'capybar'
+require 'capybara'
 require 'capybara/webkit/browser'
 
 module Capybara
