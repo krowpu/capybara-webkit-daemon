@@ -49,59 +49,12 @@ module Capybara
         private
 
           def scan(s)
-            start = 0
-
-            s.each_char.each_with_index do |c, i|
-              case c
-              when "\x02"
-                start = scan_msg_start s, start, i
-              when "\x03"
-                start = scan_msg_end s, start, i
-              end
-            end
-
-            breaks s[start..-1]
-          end
-
-          def scan_msg_start(s, start, i)
-            msg_starts s[start...i]
-            i + 1
-          end
-
-          def scan_msg_end(s, start, i)
-            msg_ends s[start...i]
-            i + 1
-          end
-
-          def msg_starts(s)
-            raise unless @message.nil?
-
-            raw s unless s.empty?
-            @message = ''
-          end
-
-          def msg_ends(s)
-            raise if @message.nil?
-
-            got @message + s
-            @message = nil
-          end
-
-          def breaks(s)
-            return if s.empty?
-
-            if @message.nil?
-              raw s
-            else
-              @message += s
-            end
+            raw s
           end
 
           def raw(s)
             destination.write s unless s.empty?
           end
-
-          def got(s); end
 
           def source=(io)
             raise TypeError, "expected source to be an #{IO}" unless io.is_a? IO

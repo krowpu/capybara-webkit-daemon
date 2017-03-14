@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'capybara/webkit/daemon/server/extractor'
 require 'capybara/webkit/daemon/server/wrapper'
 
 module Capybara
@@ -10,7 +11,7 @@ module Capybara
           attr_reader :logger
           private     :logger
 
-          attr_reader :wrapper1_to2, :wrapper2_to1
+          attr_reader :extractor, :wrapper2_to1
 
           def initialize(socket1:, socket2:, logger:)
             @logger = logger
@@ -18,7 +19,7 @@ module Capybara
             @socket1 = socket1
             @socket2 = socket2
 
-            @wrapper1_to2 = Wrapper.new source: socket1, destination: socket2
+            @extractor = Extractor.new source: socket1, destination: socket2
             @wrapper2_to1 = Wrapper.new source: socket2, destination: socket1
           end
 
@@ -27,7 +28,7 @@ module Capybara
 
             thread1 = Thread.start do
               begin
-                wrapper1_to2.round until @terminating
+                extractor.round until @terminating
               rescue EOFError
                 @terminating = true
               end
