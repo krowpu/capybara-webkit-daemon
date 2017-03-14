@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'capybara'
 require 'capybara/webkit/browser'
 
 require 'capybara/webkit/daemon/server/connection'
@@ -14,6 +15,10 @@ module Capybara
           def initialize(configuration:)
             @configuration = configuration
             connection
+          end
+
+          def close
+            connection.close
           end
 
           def connection

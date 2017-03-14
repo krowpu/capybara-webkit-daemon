@@ -4,8 +4,8 @@ require 'set'
 require 'socket'
 require 'thread'
 
-require 'capybara/webkit/daemon/server/connection'
-require 'capybara/webkit/daemon/server/link'
+require 'capybara/webkit/daemon/server/client'
+require 'capybara/webkit/daemon/server/session'
 
 module Capybara
   module Webkit
@@ -91,15 +91,19 @@ module Capybara
           def handle(client_socket) # rubocop:disable Metrics/AbcSize
             logger.debug "New connection from #{client_socket.peeraddr.inspect}"
 
-            connection = Connection.new configuration: configuration
+            client = Client.new client_socket
+            session = Session.new client, configuration: configuration
 
-            link = new_link server: connection.socket, client: client_socket
-            link.start
+            add_link session.link
+            session.link.start
+
           rescue => e
             logger.error e
+
           ensure
-            delete_link link
-            connection.close
+            delete_link session.link
+            session.close
+
             logger.debug "Connection closed #{client_socket.peeraddr.inspect}"
           end
 
@@ -112,14 +116,10 @@ module Capybara
             end.freeze
           end
 
-          def new_link(client:, server:)
-            link = Link.new client: client, server: server
-
+          def add_link(link)
             @mutex.synchronize do
               @links << link
             end
-
-            link
           end
 
           def delete_link(link)

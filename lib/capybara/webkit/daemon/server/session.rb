@@ -17,6 +17,10 @@ module Capybara
             browser
           end
 
+          def close
+            browser.close
+          end
+
           def browser
             @browser ||= Browser.new configuration: configuration
           end
