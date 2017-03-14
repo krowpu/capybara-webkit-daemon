@@ -34,7 +34,7 @@ module Capybara
 
             s.chars.each_index do |i|
               next binary_chr s, start, i if state == :binary_msg
-              start = control_chr s, start, i
+              start = i + 1 if control_chr s, start, i
             end
 
             breaks s[start..-1]
@@ -49,15 +49,13 @@ module Capybara
             case s[i]
             when Common::HEADER_CHR
               scan_header_start s, start, i
-              i + 1
+              true
             when Common::START_CHR
               scan_msg_start s, start, i
-              i + 1
+              true
             when Common::END_CHR
               scan_msg_end s, start, i
-              i + 1
-            else
-              start
+              true
             end
           end
 
