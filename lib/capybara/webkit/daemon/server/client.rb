@@ -5,6 +5,11 @@ module Capybara
     module Daemon
       module Server
         class Client
+          attr_reader :socket
+
+          def initialize(socket)
+            @socket = socket
+          end
         end
       end
     end
