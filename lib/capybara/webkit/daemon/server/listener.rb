@@ -93,7 +93,7 @@ module Capybara
 
             connection = Connection.new configuration: configuration
 
-            link = new_link socket1: connection.socket, socket2: client_socket
+            link = new_link server: connection.socket, client: client_socket
             link.start
           rescue => e
             logger.error e
@@ -112,8 +112,8 @@ module Capybara
             end.freeze
           end
 
-          def new_link(socket1:, socket2:)
-            link = Link.new socket1: socket1, socket2: socket2, logger: logger
+          def new_link(client:, server:)
+            link = Link.new client: client, server: server, logger: logger
 
             @mutex.synchronize do
               @links << link

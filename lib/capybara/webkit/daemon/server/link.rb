@@ -13,18 +13,18 @@ module Capybara
 
           attr_reader :extractor, :inserter
 
-          def initialize(socket1:, socket2:, logger:)
+          def initialize(client:, server:, logger:)
             @logger = logger
 
-            @socket1 = socket1
-            @socket2 = socket2
+            @client = client
+            @server = server
 
-            @extractor = Extractor.new source: socket1, destination: socket2
-            @inserter = Inserter.new source: socket2, destination: socket1
+            @extractor = Extractor.new source: client, destination: server
+            @inserter = Inserter.new source: server, destination: client
           end
 
           def start
-            logger.debug "Linking sockets #{@socket1.to_i} and #{@socket2.to_i}"
+            logger.debug "Linking client #{@client.to_i} and server #{@server.to_i}"
 
             thread1 = Thread.start do
               begin
