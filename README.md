@@ -52,11 +52,48 @@ sudo useradd --no-create-home --user-group xvfb
 sudo reboot
 ```
 
-Install Xvfb init.d script:
+Create file `/etc/init.d/xvfb` with the following content:
 
 ```
-sudo wget https://gist.githubusercontent.com/krowpu/e5b388e4640c679bf495769720609783/raw/94398b7211eb46649d0f73dc60a59b9be6fb6e14/xvfb.sh -O /etc/init.d/xvfb
+#!/bin/sh
+# kFreeBSD do not accept scripts as interpreters, using #!/bin/sh and sourcing.
+if [ true != "$INIT_D_SCRIPT_SOURCED" ]; then
+  set "$0" "$@"; INIT_D_SCRIPT_SOURCED=true . /lib/init/init-d-script
+fi
+### BEGIN INIT INFO
+# Provides:          xvfb
+# Required-Start:    $remote_fs
+# Required-Stop:     $remote_fs
+# Default-Start:     2 3 4 5
+# Default-Stop:      0 1 6
+# Short-Description: Xvfb - virtual framebuffer X server
+# Description:       Xvfb is an X server that can run on machines
+#                    with no display hardware and no physical input devices.
+#                    It emulates a dumb framebuffer using virtual memory.
+### END INIT INFO
+
+DISPLAY=':1'
+
+# Read configuration variable file if it is present
+[ -r /etc/default/xvfb ] && . /etc/default/xvfb
+
+NAME='xvfb'
+DESC='Xvfb (virtual framebuffer X server)'
+DAEMON='/usr/bin/Xvfb'
+DAEMON_ARGS="$DISPLAY -screen 0 1024x768x16"
+START_ARGS="--background --make-pidfile ${CHUID:+"--chuid $CHUID"}"
+STOP_ARGS='--retry KILL/5'
+```
+
+Change file permissions:
+
+```
 sudo chmod 755 /etc/init.d/xvfb
+```
+
+Install service:
+
+```
 sudo update-rc.d xvfb defaults
 sudo update-rc.d xvfb enable
 ```
