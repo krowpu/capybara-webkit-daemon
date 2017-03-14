@@ -16,7 +16,7 @@ module Capybara
           end
 
           def start
-            thread1 = Thread.start do
+            extractor_thread = Thread.start do
               begin
                 extractor.round until @terminating
               rescue EOFError
@@ -24,7 +24,7 @@ module Capybara
               end
             end
 
-            thread2 = Thread.start do
+            inserter_thread = Thread.start do
               begin
                 inserter.round until @terminating
               rescue EOFError
@@ -33,8 +33,8 @@ module Capybara
             end
 
           ensure
-            thread1&.join
-            thread2&.join
+            extractor_thread&.join
+            inserter_thread&.join
           end
 
           def terminate!
