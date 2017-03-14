@@ -42,46 +42,46 @@ module Capybara
 
           def binary_chr(s, start, i)
             @size -= 1
-            scan_binary_msg_end s, start, i if @size.negative?
+            scan_binary_msg_end s[start...i], s[i] if @size.negative?
           end
 
           def control_chr(s, start, i)
             case s[i]
             when Common::HEADER_CHR
-              scan_header_start s, start, i
+              scan_header_start s[start...i]
               true
             when Common::START_CHR
-              scan_msg_start s, start, i
+              scan_msg_start s[start...i]
               true
             when Common::END_CHR
-              scan_msg_end s, start, i
+              scan_msg_end s[start...i]
               true
             end
           end
 
-          def scan_header_start(s, start, i)
+          def scan_header_start(s)
             raise unless state == :raw
-            header_starts s[start...i]
+            header_starts s
           end
 
-          def scan_msg_start(s, start, i)
+          def scan_msg_start(s)
             raise unless state == :raw || state == :header
 
             if state == :raw
-              msg_starts s[start...i]
+              msg_starts s
             elsif state == :header
-              binary_msg_starts s[start...i]
+              binary_msg_starts s
             end
           end
 
-          def scan_msg_end(s, start, i)
+          def scan_msg_end(s)
             raise unless state == :msg || state == :binary_msg
-            msg_ends s[start...i]
+            msg_ends s
           end
 
-          def scan_binary_msg_end(s, start, i)
-            raise unless s[i] == Common::END_CHR
-            scan_msg_end s, start, i
+          def scan_binary_msg_end(s, c)
+            raise unless c == Common::END_CHR
+            scan_msg_end s
           end
 
           def header_starts(s)
