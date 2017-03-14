@@ -5,6 +5,11 @@ module Capybara
     module Daemon
       module Server
         class Session
+          attr_reader :client
+
+          def initialize(client)
+            @client = client
+          end
         end
       end
     end
