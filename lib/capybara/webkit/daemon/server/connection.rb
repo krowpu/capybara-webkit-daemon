@@ -11,10 +11,17 @@ module Capybara
     module Daemon
       module Server
         class Connection < Capybara::Webkit::Connection
+          attr_reader :configuration
+
           attr_reader :socket
 
           def initialize(configuration:)
-            super server: Capybara::Webkit::Daemon::Server::Server.new(
+            @configuration = configuration
+            super server: server
+          end
+
+          def server
+            @server ||= Capybara::Webkit::Daemon::Server::Server.new(
               stderr: nil,
               configuration: configuration,
             )
