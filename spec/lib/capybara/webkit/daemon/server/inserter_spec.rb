@@ -51,4 +51,23 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Inserter do
       end
     end
   end
+
+  describe '#insert_binary' do
+    let(:msg) { "\x00\x01\x02\x03\x04" }
+
+    it 'inserts message with it\'s length between control characters' do
+      subject.insert_binary msg
+      expect(output).to eq "\x01#{msg.size}\x02#{msg}\x03"
+    end
+
+    context 'when raw text present' do
+      it 'inserts message with it\'s length between control characters in raw data' do
+        input '123'
+        subject.insert_binary msg
+        input '456'
+
+        expect(output).to eq "123\x01#{msg.size}\x02#{msg}\x03456"
+      end
+    end
+  end
 end

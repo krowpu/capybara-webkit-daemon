@@ -6,8 +6,9 @@ module Capybara
       module Common
         DEFAULT_PORT = 20_885
 
-        START_CHR = "\x02"
-        END_CHR   = "\x03"
+        HEADER_CHR = "\x01"
+        START_CHR  = "\x02"
+        END_CHR    = "\x03"
       end
     end
   end

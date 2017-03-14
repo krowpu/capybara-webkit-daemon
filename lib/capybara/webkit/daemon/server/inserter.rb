@@ -14,6 +14,10 @@ module Capybara
           def insert(s)
             raw "#{Common::START_CHR}#{s}#{Common::END_CHR}"
           end
+
+          def insert_binary(s)
+            raw "#{Common::HEADER_CHR}#{s.length}#{Common::START_CHR}#{s}#{Common::END_CHR}"
+          end
         end
       end
     end
