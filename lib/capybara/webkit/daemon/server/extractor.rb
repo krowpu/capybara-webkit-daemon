@@ -35,7 +35,12 @@ module Capybara
             s.each_char.each_with_index do |c, i|
               if state == :binary_msg
                 @size -= 1
-                scan_msg_end s, start, i if @size < 0
+
+                if @size < 0
+                  raise unless c == Common::END_CHR
+                  scan_msg_end s, start, i
+                end
+
                 next
               end
 
