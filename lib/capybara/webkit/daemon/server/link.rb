@@ -8,19 +8,19 @@ module Capybara
     module Daemon
       module Server
         class Link
-          attr_reader :client, :server
+          attr_reader :client, :browser
 
-          def initialize(client:, server:)
+          def initialize(client, browser)
             @client = client
-            @server = server
+            @browser = browser
           end
 
           def extractor
-            @extractor ||= Extractor.new source: client, destination: server
+            @extractor ||= Extractor.new source: client.socket, destination: browser.connection.socket
           end
 
           def inserter
-            @inserter ||= Inserter.new source: server, destination: client
+            @inserter ||= Inserter.new source: browser.connection.socket, destination: client.socket
           end
 
           def start

@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'capybara/webkit/daemon/server/browser'
+require 'capybara/webkit/daemon/server/link'
 
 module Capybara
   module Webkit
@@ -18,6 +19,10 @@ module Capybara
 
           def browser
             @browser ||= Browser.new configuration: configuration
+          end
+
+          def link
+            @link ||= Link.new client, browser
           end
         end
       end
