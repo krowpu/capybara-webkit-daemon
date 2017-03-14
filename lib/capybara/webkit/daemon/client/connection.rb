@@ -20,7 +20,7 @@ module Capybara
               @socket.setsockopt Socket::IPPROTO_TCP, Socket::TCP_NODELAY, true
             end
 
-          rescue Errno::ECONNREFUSED # rubocop:disable Lint/HandleException
+          rescue Errno::ECONNREFUSED # rubocop:disable Lint/HandleExceptions
           end
         end
       end
