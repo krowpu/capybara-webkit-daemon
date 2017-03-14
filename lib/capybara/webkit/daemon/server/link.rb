@@ -11,9 +11,6 @@ module Capybara
           attr_reader :extractor, :inserter
 
           def initialize(client:, server:)
-            @client = client
-            @server = server
-
             @extractor = Extractor.new source: client, destination: server
             @inserter = Inserter.new source: server, destination: client
           end
