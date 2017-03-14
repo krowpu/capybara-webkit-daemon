@@ -5,9 +5,7 @@ module Capybara
     module Daemon
       module Server
         ##
-        # Wraps single direction data transfer of an arbitrary
-        # protocol. Can extract/insert high-level packages
-        # from/to the stream.
+        # Wraps single direction data transfer of an arbitrary text protocol.
         #
         class Wrapper
           DEFAULT_TIMEOUT = 1
