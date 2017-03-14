@@ -8,14 +8,9 @@ module Capybara
     module Daemon
       module Server
         class Link
-          attr_reader :logger
-          private     :logger
-
           attr_reader :extractor, :inserter
 
-          def initialize(client:, server:, logger:)
-            @logger = logger
-
+          def initialize(client:, server:)
             @client = client
             @server = server
 
@@ -24,8 +19,6 @@ module Capybara
           end
 
           def start
-            logger.debug "Linking client #{@client.to_i} and server #{@server.to_i}"
-
             thread1 = Thread.start do
               begin
                 extractor.round until @terminating

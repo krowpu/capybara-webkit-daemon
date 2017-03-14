@@ -113,7 +113,7 @@ module Capybara
           end
 
           def new_link(client:, server:)
-            link = Link.new client: client, server: server, logger: logger
+            link = Link.new client: client, server: server
 
             @mutex.synchronize do
               @links << link
