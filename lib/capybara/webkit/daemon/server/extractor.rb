@@ -22,6 +22,7 @@ module Capybara
 
             @header  = nil
             @message = nil
+            @size    = nil
           end
 
         private
@@ -78,7 +79,10 @@ module Capybara
               self.state = :msg
             elsif state == :header
               self.state = :binary_msg
+              header = @header + s
               @header = nil
+              raise unless header =~ /\A\d+\z/
+              @size = header.to_i
             end
 
             @message = ''
@@ -91,6 +95,7 @@ module Capybara
 
             self.state = :raw
             @message = nil
+            @size = nil
           end
 
           def breaks(s)
