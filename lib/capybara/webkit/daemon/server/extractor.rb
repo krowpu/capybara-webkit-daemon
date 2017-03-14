@@ -64,29 +64,36 @@ module Capybara
             raise unless state == :raw
 
             raw s unless s.empty?
+
+            self.state = :header
             @header = ''
           end
 
           def msg_starts(s)
-            raise unless @message.nil?
+            raise s unless state == :raw
 
             raw s unless s.empty?
+
+            self.state = :msg
             @message = ''
           end
 
           def msg_ends(s)
-            raise if @message.nil?
+            raise unless state == :msg
 
             extracted @message + s
+
+            self.state = :raw
             @message = nil
           end
 
           def breaks(s)
             return if s.empty?
 
-            if @message.nil?
+            if state == :raw
               raw s
             else
+              raise "#{state.inspect}: #{s}" if @message.nil?
               @message += s
             end
           end
@@ -100,6 +107,8 @@ module Capybara
                 "invalid state #{sym.inspect}, possible are #{STATES.map(&:inspect).join(', ')}"
               )
             end
+
+            @state = sym
           end
         end
       end
