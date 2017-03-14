@@ -15,8 +15,8 @@ module Capybara
           attr_reader :timeout, :block_size
 
           def initialize(source:, destination:)
-            self.source = source
-            self.destination = destination
+            @source      = source
+            @destination = destination
 
             self.timeout = DEFAULT_TIMEOUT
             self.block_size = DEFAULT_BLOCK_SIZE
@@ -54,16 +54,6 @@ module Capybara
 
           def raw(s)
             destination.write s unless s.empty?
-          end
-
-          def source=(io)
-            raise TypeError, "expected source to be an #{IO}" unless io.is_a? IO
-            @source = io
-          end
-
-          def destination=(io)
-            raise TypeError, "expected destination to be an #{IO}" unless io.is_a? IO
-            @destination = io
           end
         end
       end
