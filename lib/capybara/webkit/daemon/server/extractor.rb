@@ -70,16 +70,22 @@ module Capybara
           end
 
           def msg_starts(s)
-            raise s unless state == :raw
+            raise unless state == :raw || state == :header
 
             raw s unless s.empty?
 
-            self.state = :msg
+            if state == :raw
+              self.state = :msg
+            elsif state == :header
+              self.state = :binary_msg
+              @header = nil
+            end
+
             @message = ''
           end
 
           def msg_ends(s)
-            raise unless state == :msg
+            raise unless state == :msg || state == :binary_msg
 
             extracted @message + s
 
@@ -90,11 +96,13 @@ module Capybara
           def breaks(s)
             return if s.empty?
 
-            if state == :raw
+            case state
+            when :raw
               raw s
-            else
-              raise "#{state.inspect}: #{s}" if @message.nil?
+            when :msg, :binary_msg
               @message += s
+            when :header
+              @header += s
             end
           end
 
