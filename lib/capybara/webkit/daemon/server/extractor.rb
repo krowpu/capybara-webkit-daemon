@@ -51,12 +51,9 @@ module Capybara
 
           def control_chr(s, start, i)
             case s[i]
-            when Common::HEADER_CHR
-              scan_header_start s[start...i]
-            when Common::START_CHR
-              scan_msg_start s[start...i]
-            when Common::END_CHR
-              scan_msg_end s[start...i]
+            when Common::HEADER_CHR then scan_header_start s[start...i]
+            when Common::START_CHR  then scan_msg_start s[start...i]
+            when Common::END_CHR    then scan_msg_end s[start...i]
             else
               return false
             end
