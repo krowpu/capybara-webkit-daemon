@@ -36,7 +36,7 @@ module Capybara
               if state == :binary_msg
                 @size -= 1
 
-                if @size < 0
+                if @size.negative?
                   raise unless c == Common::END_CHR
                   scan_msg_end s, start, i
                 end
@@ -128,7 +128,7 @@ module Capybara
             unless STATES.include? sym
               raise(
                 ArgumentError,
-                "invalid state #{sym.inspect}, possible are #{STATES.map(&:inspect).join(', ')}"
+                "invalid state #{sym.inspect}, possible are #{STATES.map(&:inspect).join(', ')}",
               )
             end
 
