@@ -1,11 +1,10 @@
 # frozen_string_literal: true
 
-require 'logger'
-
 require 'capybara/webkit/daemon/server/configuration'
 require 'capybara/webkit/daemon/server/streams'
 require 'capybara/webkit/daemon/server/pid_file'
 require 'capybara/webkit/daemon/server/signal_handler'
+require 'capybara/webkit/daemon/server/logger'
 require 'capybara/webkit/daemon/server/listener'
 
 module Capybara
@@ -104,32 +103,11 @@ module Capybara
           end
 
           def logger
-            return @logger if @logger
-
-            logger = Logger.new log_file
-
-            logger.progname = log_progname
-            logger.level    = log_level
-
-            @logger = logger
-          end
-
-          def log_file
-            configuration.to_h[:log_file] || stderr
-          end
-
-          def log_progname
-            program_name
-          end
-
-          def log_level
-            case configuration.to_h[:log_level]
-            when :debug then Logger::DEBUG
-            when :info  then Logger::INFO
-            when :warn  then Logger::WARN
-            else
-              raise
-            end
+            @logger ||= Logger.new(
+              program_name: program_name,
+              configuration: configuration,
+              streams: streams,
+            )
           end
         end
       end
