@@ -29,7 +29,7 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Extractor do
       let(:msg) { 'Hello, World!' }
 
       it 'extracts message' do
-        expect(subject).to receive(:extracted).with(msg)
+        expect(subject).to receive(:message).with(msg)
         input "123\x02#{msg}\x03456"
         expect(output).to eq '123456'
       end
@@ -39,7 +39,7 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Extractor do
       let(:msg) { "\x00\x01\x02\x03\x04" }
 
       it 'extracts message' do
-        expect(subject).to receive(:extracted).with(msg)
+        expect(subject).to receive(:message).with(msg)
         input "123\x01#{msg.length}\x02#{msg}\x03456"
       end
     end

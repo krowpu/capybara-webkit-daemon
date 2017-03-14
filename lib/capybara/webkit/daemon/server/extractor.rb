@@ -27,7 +27,7 @@ module Capybara
 
         private
 
-          def extracted(s); end
+          def message(s); end
 
           def scan(s)
             start = 0
@@ -107,7 +107,7 @@ module Capybara
           end
 
           def msg_ends(s)
-            extracted @message + s
+            message @message + s
 
             self.state = :raw
             @message = nil
