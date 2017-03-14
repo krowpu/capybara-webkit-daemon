@@ -9,13 +9,13 @@ module Capybara
     module Daemon
       module Server
         class Server < Capybara::Webkit::Server
-          attr_reader :stderr, :configuration
+          attr_reader :configuration
 
-          def initialize(*args)
-            options = args.pop if args.last.is_a? Hash
-            options ||= {}
-            @configuration = options[:configuration]
-            super(*args)
+          attr_reader :stderr
+
+          def initialize(configuration:)
+            @configuration = configuration
+            super stderr: nil
           end
 
         private

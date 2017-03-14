@@ -21,10 +21,7 @@ module Capybara
           end
 
           def server
-            @server ||= Capybara::Webkit::Daemon::Server::Server.new(
-              stderr: nil,
-              configuration: configuration,
-            )
+            @server ||= Capybara::Webkit::Daemon::Server::Server.new configuration: configuration
           end
 
           def close
