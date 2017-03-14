@@ -33,6 +33,12 @@ module Capybara
             start = 0
 
             s.each_char.each_with_index do |c, i|
+              if state == :binary_msg
+                @size -= 1
+                scan_msg_end s, start, i if @size < 0
+                next
+              end
+
               case c
               when Common::HEADER_CHR
                 start = scan_header_start s, start, i
