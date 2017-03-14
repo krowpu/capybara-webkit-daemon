@@ -36,7 +36,7 @@ module Capybara
             @stderr = stderr
           end
 
-          def start # rubocop:disable Metrics/AbcSize
+          def start # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
             logger.info "Running in #{RUBY_DESCRIPTION}"
             logger.debug "Configuration: #{configuration.to_h.inspect}"
 
