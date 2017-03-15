@@ -15,22 +15,22 @@ module Capybara
             state :arg_size,            before_enter: :getting_arg_size,   after_exit: :got_arg_size
             state :arg,                 before_enter: :getting_arg,        after_exit: :got_arg
 
-            event :newline do
+            event :newline, before: :create_command do
               transitions from: :name, to: :args_count
             end
 
-            event :newline do
+            event :newline, before: :set_args_count do
               transitions from: :args_count, to: :name
               transitions from: :args_count, to: :arg_size
             end
 
-            event :newline do
+            event :newline, before: :set_arg_size do
               transitions from: :arg_size, to: :name
               transitions from: :arg_size, to: :arg_size
               transitions from: :arg_size, to: :arg
             end
 
-            event :arg_ended do
+            event :arg_ended, before: :append_arg do
               transitions from: :arg, to: :name
               transitions from: :arg, to: :arg_size
             end
@@ -41,6 +41,22 @@ module Capybara
           end
 
         private
+
+          def create_command
+            @command = Command.new @name
+          end
+
+          def set_args_count
+            @command.args_count = Integer @args_count
+          end
+
+          def set_arg_size
+            @command << Integer(@arg_size)
+          end
+
+          def append_arg
+            @command.last << @arg
+          end
 
           def getting_name
             @name = ''
