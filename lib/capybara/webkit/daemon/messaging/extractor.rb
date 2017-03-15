@@ -42,7 +42,7 @@ module Capybara
           end
 
           def message(s)
-            @block&.call s
+            @block&.(s)
           end
 
           def scan(s)
