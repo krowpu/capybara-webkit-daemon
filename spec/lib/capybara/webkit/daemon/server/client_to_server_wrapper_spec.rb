@@ -29,6 +29,11 @@ RSpec.describe Capybara::Webkit::Daemon::Server::ClientToServerWrapper do
   end
 
   describe '#round' do
+    it 'transfers data as is' do
+      input command 'Foo'
+      expect(output).to eq command 'Foo'
+    end
+
     context 'when got some messages' do
       let(:msg) { 'Hello, World!' }
 
@@ -66,13 +71,6 @@ RSpec.describe Capybara::Webkit::Daemon::Server::ClientToServerWrapper do
         input command 'Bar'
 
         expect(output).to eq "#{command 'Foo'}#{command 'Bar'}"
-      end
-    end
-
-    context 'when no messages got' do
-      it 'transfers data as is' do
-        input command 'Foo'
-        expect(output).to eq command 'Foo'
       end
     end
 
