@@ -76,6 +76,14 @@ RSpec.describe Capybara::Webkit::Daemon::Server::ClientToServerWrapper do
       end
     end
 
+    context 'when got command with args' do
+      let(:args) { %w(qwe rty uiop) }
+      it 'transfers data as is' do
+        input command 'Foo', *args
+        expect(output).to eq command 'Foo', *args
+      end
+    end
+
     context 'when got render command' do
       let(:args) { %w(/home/user/screenshot.png 1025 768) }
 
