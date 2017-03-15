@@ -16,6 +16,8 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
   let(:client_socket) { StringIO.new }
 
   describe '#close_if_time_exceeded_thread' do
+    pending 'is called during session initialization'
+
     it 'closes session after 5 minutes' do
       now = Time.now
       started_at = Time.at now - 5 * 60 # 5 minutes ago
