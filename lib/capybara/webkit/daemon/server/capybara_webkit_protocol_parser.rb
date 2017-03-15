@@ -39,6 +39,18 @@ module Capybara
             def call(_c)
               raise NotImplementedError, "#{self.class}#call"
             end
+
+            def inspect
+              "#{inspect_name}(#{inspect_ivars})"
+            end
+
+            def inspect_name
+              self.class.name.split('::').last
+            end
+
+            def inspect_ivars
+              instance_variables.map { |v| "#{v[1..-1]}: #{instance_variable_get(v).inspect}" }.join ', '
+            end
           end
 
           class Name < State
