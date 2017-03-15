@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'capybara/webkit/daemon/server/wrapper'
+require 'capybara/webkit/daemon/server/capybara_webkit_protocol_parser'
 require 'capybara/webkit/daemon/extractor'
 
 module Capybara
@@ -11,7 +12,11 @@ module Capybara
         private
 
           def scan(s)
-            raw extractor.call s
+            raw capybara_webkit_protocol_parser.call extractor.call s
+          end
+
+          def capybara_webkit_protocol_parser
+            @capybara_webkit_protocol_parser ||= CapybaraWebkitProtocolParser.new
           end
 
           def extractor
