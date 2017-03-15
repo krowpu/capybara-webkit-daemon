@@ -82,6 +82,15 @@ RSpec.describe Capybara::Webkit::Daemon::Server::ClientToServerWrapper do
       end
     end
 
+    context 'when got command with empty arg' do
+      let(:data) { "Foo\n1\n0\n" }
+
+      it 'transfers data as is' do
+        input data
+        expect(output).to eq data
+      end
+    end
+
     context 'when got command with args' do
       let(:args) { %w(qwe rty uiop) }
 
