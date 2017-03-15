@@ -28,6 +28,14 @@ RSpec.describe Capybara::Webkit::Daemon::Server::ClientToServerWrapper do
     "#{name}\n#{args.size}\n#{args.map { |arg| "#{arg.size}\n#{arg}" }.join}"
   end
 
+  def message(s)
+    "\x02#{s}\x03"
+  end
+
+  def binary_message(s)
+    "\x01#{s.bytesize}\x02#{s}\x03"
+  end
+
   describe '#round' do
     it 'transfers data as is' do
       input command 'Foo'
@@ -41,13 +49,13 @@ RSpec.describe Capybara::Webkit::Daemon::Server::ClientToServerWrapper do
         expect(subject).to receive(:message).with(msg)
 
         input command 'Foo'
-        input "\x02#{msg}\x03"
+        input message msg
         input command 'Bar'
       end
 
       it 'transfers rest of raw data' do
         input command 'Foo'
-        input "\x02#{msg}\x03"
+        input message msg
         input command 'Bar'
 
         expect(output).to eq "#{command 'Foo'}#{command 'Bar'}"
@@ -61,13 +69,13 @@ RSpec.describe Capybara::Webkit::Daemon::Server::ClientToServerWrapper do
         expect(subject).to receive(:message).with(msg)
 
         input command 'Foo'
-        input "\x01#{msg.length}\x02#{msg}\x03"
+        input binary_message msg
         input command 'Bar'
       end
 
       it 'transfers rest of raw data' do
         input command 'Foo'
-        input "\x01#{msg.length}\x02#{msg}\x03"
+        input binary_message msg
         input command 'Bar'
 
         expect(output).to eq "#{command 'Foo'}#{command 'Bar'}"
