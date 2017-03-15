@@ -122,16 +122,17 @@ module Capybara
             end
 
             def call(c)
+              @arg += c
+
               if @arg.size == @arg_size
                 @args << @arg
                 if @args.count == @args_count
                   yield @name, @args
                   return Name.new
                 end
-                return ArgSize.new @name, @args_count, args: @args, arg_size: c
+                return ArgSize.new @name, @args_count, args: @args
               end
 
-              @arg += c
               self
             end
           end

@@ -100,6 +100,18 @@ RSpec.describe Capybara::Webkit::Daemon::Server::ClientToServerWrapper do
       end
     end
 
+    context 'when got two commands with args' do
+      let(:args1) { %w(qwe 123) }
+      let(:args2) { %w(rty 456) }
+
+      it 'transfers data as is' do
+        input command 'Foo', *args1
+        input command 'Bar', *args2
+
+        expect(output).to eq "#{command 'Foo', *args1}#{command 'Bar', *args2}"
+      end
+    end
+
     context 'when got render command' do
       let(:args) { %w(/home/user/screenshot.png 1025 768) }
 
