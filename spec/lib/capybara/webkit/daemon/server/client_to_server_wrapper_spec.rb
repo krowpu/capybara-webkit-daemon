@@ -16,12 +16,26 @@ RSpec.describe Capybara::Webkit::Daemon::Server::ClientToServerWrapper do
     subject.round
   end
 
+  def inputs(s)
+    input "#{s}\n"
+  end
+
   def output
     orig = destination.pos
     destination.seek 0
     result = destination.read
     destination.seek orig
     result
+  end
+
+  def command(name, *args)
+    inputs name
+    inputs args.size
+
+    args.each do |arg|
+      inputs arg.to_s.bytesize
+      input arg.to_s
+    end
   end
 
   describe '#round' do
@@ -48,6 +62,20 @@ RSpec.describe Capybara::Webkit::Daemon::Server::ClientToServerWrapper do
       it 'transfers data as is' do
         input '123'
         expect(output).to eq '123'
+      end
+    end
+
+    context 'when got render command' do
+      let(:args) { %w(/home/user/screenshot.png 1025 768) }
+
+      it 'does not transfer data' do
+        command 'Render', *args
+        expect(output).to be_empty
+      end
+
+      it 'calls handler' do
+        expect(subject).to receive(:render).with(*args)
+        command 'Render', *args
       end
     end
   end

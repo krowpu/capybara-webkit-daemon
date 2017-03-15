@@ -21,6 +21,8 @@ module Capybara
           def scan(s)
             raw extractor.call s
           end
+
+          def render(path, width, height); end
         end
       end
     end
