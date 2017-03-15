@@ -39,6 +39,21 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
     end
   end
 
+  describe '#duration' do
+    it 'returns session duration' do
+      started_at = Time.at Time.now.to_f * rand
+      now = started_at + rand(10 * 365 * 24 * 60 * 60) # about 10 years
+
+      Timecop.freeze started_at do
+        subject
+      end
+
+      Timecop.freeze now do
+        expect(subject.duration).to eq now - started_at
+      end
+    end
+  end
+
   describe '#browser' do
     it 'creates browser with original configuration' do
       expect(subject.browser.configuration).to equal configuration

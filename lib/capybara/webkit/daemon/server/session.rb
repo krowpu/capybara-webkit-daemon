@@ -21,6 +21,10 @@ module Capybara
             browser
           end
 
+          def duration
+            Time.now - started_at
+          end
+
           def close
             browser.close
           end
