@@ -53,6 +53,10 @@ module Capybara
           end
 
           def raw(s)
+            write s
+          end
+
+          def write(s)
             destination.write s unless s.empty?
           end
         end
