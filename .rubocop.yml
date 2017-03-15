@@ -6,6 +6,9 @@ Metrics/BlockLength:
     - '**/*.gemspec'
     - 'spec/**/*_spec.rb'
 
+Metrics/ClassLength:
+  Max: 120
+
 Metrics/LineLength:
   Max: 120
 
