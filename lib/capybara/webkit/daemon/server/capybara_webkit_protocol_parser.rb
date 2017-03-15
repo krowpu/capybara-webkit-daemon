@@ -85,6 +85,7 @@ module Capybara
             def call(c)
               if c == "\n"
                 if @arg_size == '0'
+                  @args << ''
                   if @args.count == @args_count
                     yield @name, @args
                     return Name.new
