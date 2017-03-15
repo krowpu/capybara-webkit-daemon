@@ -3,6 +3,7 @@
 require 'capybara/webkit/daemon/server/wrapper'
 require 'capybara/webkit/daemon/server/capybara_webkit_protocol_parser'
 require 'capybara/webkit/daemon/messaging/extractor'
+require 'capybara/webkit/daemon/binary_messaging/extractor'
 
 module Capybara
   module Webkit
@@ -12,7 +13,7 @@ module Capybara
         private
 
           def scan(s)
-            raw capybara_webkit_protocol_parser.call extractor.call s
+            raw capybara_webkit_protocol_parser.call extractor.call binary_extractor.call s
           end
 
           def capybara_webkit_protocol_parser
@@ -22,6 +23,12 @@ module Capybara
 
           def extractor
             @extractor ||= Messaging::Extractor.new do |msg|
+              message msg
+            end
+          end
+
+          def binary_extractor
+            @binary_extractor ||= BinaryMessaging::Extractor.new do |msg|
               message msg
             end
           end

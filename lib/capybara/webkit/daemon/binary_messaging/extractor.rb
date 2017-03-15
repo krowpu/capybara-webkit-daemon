@@ -1,18 +1,18 @@
 # frozen_string_literal: true
 
-require 'capybara/webkit/daemon/messaging'
+require 'capybara/webkit/daemon/binary_messaging'
 
 module Capybara
   module Webkit
     module Daemon
-      module Messaging
+      module BinaryMessaging
         ##
-        # Extracts high-level packages from wrapped text protocol.
+        # Extracts high-level binary packages from wrapped text protocol.
         #
         class Extractor
-          include Messaging
+          include BinaryMessaging
 
-          STATES = %i(raw msg).freeze
+          STATES = %i(raw header binary_msg).freeze
 
           attr_reader :state
 
@@ -23,6 +23,7 @@ module Capybara
 
             @raw = ''
 
+            @header  = nil
             @message = nil
             @size    = nil
           end
@@ -48,38 +49,68 @@ module Capybara
             start = 0
 
             s.length.times do |i|
+              if state == :binary_msg
+                start = i + 1 if binary_chr s, start, i
+                next
+              end
+
               start = i + 1 if control_chr s, start, i
             end
 
             breaks s[start..-1]
           end
 
+          def binary_chr(s, start, i)
+            @size -= 1
+
+            return false unless @size.negative?
+
+            raise unless s[i] == END_CHR
+            scan_msg_end s[start...i]
+            true
+          end
+
           def control_chr(s, start, i)
             case s[i]
+            when HEADER_CHR then scan_header_start s[start...i]
             when START_CHR  then scan_msg_start s[start...i]
             when END_CHR    then scan_msg_end s[start...i]
             else
-              return false
+              false
             end
+          end
 
+          def scan_header_start(s)
+            raise unless state == :raw
+            header_starts s
             true
           end
 
           def scan_msg_start(s)
-            raise unless state == :raw
-
-            msg_starts s
+            return false unless state == :header
+            binary_msg_starts s
+            true
           end
 
           def scan_msg_end(s)
-            raise unless state == :msg
+            return false unless state == :binary_msg
             msg_ends s
+            true
           end
 
-          def msg_starts(s)
+          def header_starts(s)
             raw s unless s.empty?
 
-            self.state = :msg
+            self.state = :header
+            @header = ''
+          end
+
+          def binary_msg_starts(s)
+            self.state = :binary_msg
+            header = @header + s
+            @header = nil
+            raise unless header =~ /\A\d+\z/
+            @size = header.to_i
             @message = ''
           end
 
@@ -97,8 +128,10 @@ module Capybara
             case state
             when :raw
               raw s
-            when :msg
+            when :binary_msg
               @message += s
+            when :header
+              @header += s
             end
           end
 
