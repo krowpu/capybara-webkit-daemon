@@ -88,7 +88,7 @@ module Capybara
             nil
           end
 
-          def handle(client_socket) # rubocop:disable Metrics/MethodLength, Metrics/AbcSize
+          def handle(client_socket) # rubocop:disable Metrics/AbcSize
             logger.debug "New connection from #{client_socket.peeraddr.inspect}"
 
             client = Client.new client_socket

@@ -12,6 +12,9 @@ Metrics/ClassLength:
 Metrics/LineLength:
   Max: 120
 
+Metrics/MethodLength:
+  Max: 12
+
 Style/AccessModifierIndentation:
   EnforcedStyle: outdent
 
