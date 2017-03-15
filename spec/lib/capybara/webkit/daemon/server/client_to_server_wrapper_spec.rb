@@ -34,8 +34,12 @@ RSpec.describe Capybara::Webkit::Daemon::Server::ClientToServerWrapper do
 
       it 'extracts message' do
         expect(subject).to receive(:message).with(msg)
-        input "123\x02#{msg}\x03456"
-        expect(output).to eq '123456'
+
+        input command 'Foo'
+        input "\x02#{msg}\x03"
+        input command 'Bar'
+
+        expect(output).to eq "#{command 'Foo'}#{command 'Bar'}"
       end
     end
 
@@ -44,14 +48,17 @@ RSpec.describe Capybara::Webkit::Daemon::Server::ClientToServerWrapper do
 
       it 'extracts message' do
         expect(subject).to receive(:message).with(msg)
-        input "123\x01#{msg.length}\x02#{msg}\x03456"
+
+        input command 'Foo'
+        input "\x01#{msg.length}\x02#{msg}\x03"
+        input command 'Bar'
       end
     end
 
     context 'when no messages got' do
       it 'transfers data as is' do
-        input '123'
-        expect(output).to eq '123'
+        input command 'Foo'
+        expect(output).to eq command 'Foo'
       end
     end
 
