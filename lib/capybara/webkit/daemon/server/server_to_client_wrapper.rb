@@ -9,17 +9,19 @@ module Capybara
       module Server
         class ServerToClientWrapper < Wrapper
           def message(s)
-            raw inserter.message s
+            inserter.message s
           end
 
           def message_binary(s)
-            raw inserter.binary_message s
+            inserter.binary_message s
           end
 
         private
 
           def inserter
-            @inserter ||= Messaging::Inserter.new
+            @inserter ||= Messaging::Inserter.new do |s|
+              raw s
+            end
           end
         end
       end

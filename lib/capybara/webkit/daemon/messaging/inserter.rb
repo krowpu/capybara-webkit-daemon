@@ -12,6 +12,10 @@ module Capybara
         class Inserter
           include Messaging
 
+          def initialize(&block)
+            @block = block
+          end
+
           def call(s)
             if s =~ BINARY_MSG_RE
               binary_message s
@@ -21,11 +25,11 @@ module Capybara
           end
 
           def message(s)
-            "#{START_CHR}#{s}#{END_CHR}"
+            @block&.("#{START_CHR}#{s}#{END_CHR}")
           end
 
           def binary_message(s)
-            "#{HEADER_CHR}#{s.length}#{START_CHR}#{s}#{END_CHR}"
+            @block&.("#{HEADER_CHR}#{s.length}#{START_CHR}#{s}#{END_CHR}")
           end
         end
       end
