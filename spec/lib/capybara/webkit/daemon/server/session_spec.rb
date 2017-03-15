@@ -15,6 +15,22 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
 
   let(:client_socket) { StringIO.new }
 
+  describe '#active?' do
+    it 'returns true' do
+      expect(subject.active?).to eq true
+    end
+
+    context 'when session has been closed' do
+      before do
+        subject.close
+      end
+
+      it 'returns false' do
+        expect(subject.active?).to eq false
+      end
+    end
+  end
+
   describe '#client' do
     it 'returns original client' do
       expect(subject.client).to equal client

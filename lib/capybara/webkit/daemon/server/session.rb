@@ -19,6 +19,12 @@ module Capybara
             @started_at = Time.now.freeze
 
             browser
+
+            @active = true
+          end
+
+          def active?
+            @active
           end
 
           def duration
@@ -26,6 +32,7 @@ module Capybara
           end
 
           def close
+            @active = false
             browser.close
           end
 
