@@ -37,10 +37,30 @@ module Capybara
           end
 
           def call(s)
-            s
+            scan s
           end
 
         private
+
+          def scan(s)
+            s.each_char do |c|
+              next newline if !arg? && c == "\n"
+              char c
+              next arg_ended if arg? && @command.last.complete?
+            end
+          end
+
+          def char(c)
+            if name?
+              @name += c
+            elsif args_count?
+              @args_count += c
+            elsif arg_size?
+              @arg_size += c
+            elsif arg?
+              @arg += c
+            end
+          end
 
           def create_command
             @command = Command.new @name
