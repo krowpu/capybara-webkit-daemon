@@ -46,7 +46,11 @@ module Capybara
           start = 0
 
           s.length.times do |i|
-            next binary_chr s, start, i if state == :binary_msg
+            if state == :binary_msg
+              start = i + 1 if binary_chr s, start, i
+              next
+            end
+
             start = i + 1 if control_chr s, start, i
           end
 
@@ -56,10 +60,11 @@ module Capybara
         def binary_chr(s, start, i)
           @size -= 1
 
-          return unless @size.negative?
+          return false unless @size.negative?
 
           raise unless s[i] == Common::END_CHR
           scan_msg_end s[start...i]
+          true
         end
 
         def control_chr(s, start, i)
