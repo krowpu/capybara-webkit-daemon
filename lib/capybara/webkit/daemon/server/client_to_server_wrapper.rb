@@ -24,8 +24,9 @@ module Capybara
                                           .inject(capybara_webkit_protocol_parser)
           end
 
-          def capybara_webkit_protocol_parser
-            @capybara_webkit_protocol_parser ||= CapybaraWebkitProtocolParser.new do |cmd|
+          def binary_extractor
+            @binary_extractor ||= BinaryMessaging::Extractor.new do |msg|
+              message msg
             end
           end
 
@@ -35,9 +36,8 @@ module Capybara
             end
           end
 
-          def binary_extractor
-            @binary_extractor ||= BinaryMessaging::Extractor.new do |msg|
-              message msg
+          def capybara_webkit_protocol_parser
+            @capybara_webkit_protocol_parser ||= CapybaraWebkitProtocolParser.new do |cmd|
             end
           end
 
