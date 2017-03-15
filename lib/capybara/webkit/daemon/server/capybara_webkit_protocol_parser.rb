@@ -63,7 +63,7 @@ module Capybara
             s.each_char do |c|
               next newline if !arg? && c == "\n"
               char c
-              next arg_ended if arg? && @command.last.complete?
+              arg_ended if arg? && @command.last.complete?
             end
           end
 
