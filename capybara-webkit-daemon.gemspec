@@ -44,6 +44,7 @@ Gem::Specification.new do |spec|
   spec.add_development_dependency 'rubocop',   '~> 0.47'
   spec.add_development_dependency 'rspec',     '~> 3.5'
   spec.add_development_dependency 'simplecov', '~> 0.14'
+  spec.add_development_dependency 'timecop',   '~> 0.8'
 
   spec.add_runtime_dependency 'capybara',        '2.4.4'
   spec.add_runtime_dependency 'capybara-webkit', '1.11.1'

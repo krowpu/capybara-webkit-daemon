@@ -5,6 +5,8 @@ require 'capybara/webkit/daemon/server/session'
 require 'capybara/webkit/daemon/server/client'
 require 'capybara/webkit/daemon/server/configuration'
 
+require 'timecop'
+
 RSpec.describe Capybara::Webkit::Daemon::Server::Session do
   subject { described_class.new client, configuration: configuration }
 
@@ -22,6 +24,18 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
   describe '#configuration' do
     it 'returns original configuration' do
       expect(subject.configuration).to equal configuration
+    end
+  end
+
+  describe '#started_at' do
+    it 'returns session start time' do
+      started_at = Time.at Time.now.to_f * rand
+
+      Timecop.freeze started_at do
+        subject
+      end
+
+      expect(subject.started_at).to eq started_at
     end
   end
 

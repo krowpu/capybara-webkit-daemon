@@ -10,10 +10,14 @@ module Capybara
         class Session
           attr_reader :client
           attr_reader :configuration
+          attr_reader :started_at
 
           def initialize(client, configuration:)
             @client = client
             @configuration = configuration
+
+            @started_at = Time.now.freeze
+
             browser
           end
 
