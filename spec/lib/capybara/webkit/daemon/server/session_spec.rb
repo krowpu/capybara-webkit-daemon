@@ -68,6 +68,23 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
         expect(subject.duration).to eq now - started_at
       end
     end
+
+    context 'when session has been closed' do
+      it 'returns session finish time' do
+        started_at = Time.at Time.now.to_f * rand
+        finished_at = started_at + rand(10 * 365 * 24 * 60 * 60) # about 10 years
+
+        Timecop.freeze started_at do
+          subject
+        end
+
+        Timecop.freeze finished_at do
+          subject.close
+        end
+
+        expect(subject.duration).to eq finished_at - started_at
+      end
+    end
   end
 
   describe '#browser' do

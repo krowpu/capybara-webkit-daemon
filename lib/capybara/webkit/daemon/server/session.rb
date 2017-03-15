@@ -28,11 +28,13 @@ module Capybara
           end
 
           def duration
+            return @duration if @duration
             Time.now - started_at
           end
 
           def close
             @active = false
+            @duration = duration
             browser.close
           end
 
