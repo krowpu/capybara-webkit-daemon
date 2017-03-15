@@ -19,7 +19,9 @@ class ProtocolInjector
   end
 
   def inject(handler)
-    raise TypeError, 'handler must respond to #call' unless handler.respond_to? :call
+    raise TypeError, 'handler must respond to #call'           unless handler.respond_to? :call
+    raise TypeError, "handler's #call must return a #{String}" unless handler.('').is_a? String
+
     @handlers << handler
     self
   end
