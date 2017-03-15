@@ -35,6 +35,24 @@ module Capybara
           def call(s)
             s
           end
+
+        private
+
+          def zero_args?
+            args_count.zero?
+          end
+
+          def empty_arg?
+            arg_size.zero?
+          end
+
+          def args_count
+            Integer @args_count
+          end
+
+          def arg_size
+            Integer @arg_size
+          end
         end
       end
     end
