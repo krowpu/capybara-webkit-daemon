@@ -32,16 +32,23 @@ module Capybara
 
           def call(s)
             scan s
+            result = commands.map(&:to_s).join
+            @commands = nil
+            result
           end
 
         private
+
+          def commands
+            @commans ||= []
+          end
 
           def command_complete?
             @command.complete?
           end
 
           def arg_complete?
-            @command.last.complete?
+            @command.last&.complete?
           end
 
           def scan(s)
@@ -81,6 +88,7 @@ module Capybara
           end
 
           def getting_name
+            commands << @command if @command
             @name = ''
           end
 
@@ -141,7 +149,7 @@ module Capybara
             end
 
             def last
-              @args.fetch @args.size - 1
+              @args.last
             end
 
             def to_s
