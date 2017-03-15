@@ -24,4 +24,20 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
       expect(subject.configuration).to equal configuration
     end
   end
+
+  describe '#browser' do
+    it 'creates browser with original configuration' do
+      expect(subject.browser.configuration).to equal configuration
+    end
+  end
+
+  describe '#link' do
+    it 'creates link with original client' do
+      expect(subject.link.client).to equal client
+    end
+
+    it 'creates link with created browser' do
+      expect(subject.link.browser).to equal subject.browser
+    end
+  end
 end
