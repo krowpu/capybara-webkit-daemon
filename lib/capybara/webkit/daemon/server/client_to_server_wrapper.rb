@@ -8,14 +8,6 @@ module Capybara
     module Daemon
       module Server
         class ClientToServerWrapper < Wrapper
-          STATES = %i(name arg_size arg).freeze
-
-          def initialize(*)
-            super
-
-            self.state = :name
-          end
-
         private
 
           def scan(s)
@@ -31,17 +23,6 @@ module Capybara
           def message(s); end
 
           def render(path, width, height); end
-
-          def state=(sym)
-            unless STATES.include? sym
-              raise(
-                ArgumentError,
-                "invalid state #{sym.inspect}, possible are #{STATES.map(&:inspect).join(', ')}",
-              )
-            end
-
-            @state = sym
-          end
         end
       end
     end
