@@ -20,18 +20,18 @@ module Capybara
             end
 
             event :newline do
-              transitions from: :args_count, to: :name, guard: :zero_args?
+              transitions from: :args_count, to: :name
               transitions from: :args_count, to: :arg_size
             end
 
             event :newline do
-              transitions from: :arg_size, to: :name, guards: %i(empty_arg? last_arg?)
-              transitions from: :arg_size, to: :arg_size, guard: :empty_arg?
+              transitions from: :arg_size, to: :name
+              transitions from: :arg_size, to: :arg_size
               transitions from: :arg_size, to: :arg
             end
 
             event :arg_ended do
-              transitions from: :arg, to: :name, guard: :last_arg?
+              transitions from: :arg, to: :name
               transitions from: :arg, to: :arg_size
             end
           end
@@ -72,22 +72,6 @@ module Capybara
 
           def got_arg
             @arg = nil
-          end
-
-          def zero_args?
-            args_count.zero?
-          end
-
-          def empty_arg?
-            arg_size.zero?
-          end
-
-          def args_count
-            Integer @args_count
-          end
-
-          def arg_size
-            Integer @arg_size
           end
         end
       end
