@@ -38,6 +38,12 @@ RSpec.describe Capybara::Webkit::Daemon::Server::ClientToServerWrapper do
         input command 'Foo'
         input "\x02#{msg}\x03"
         input command 'Bar'
+      end
+
+      it 'transfers rest of raw data' do
+        input command 'Foo'
+        input "\x02#{msg}\x03"
+        input command 'Bar'
 
         expect(output).to eq "#{command 'Foo'}#{command 'Bar'}"
       end
@@ -52,6 +58,14 @@ RSpec.describe Capybara::Webkit::Daemon::Server::ClientToServerWrapper do
         input command 'Foo'
         input "\x01#{msg.length}\x02#{msg}\x03"
         input command 'Bar'
+      end
+
+      it 'transfers rest of raw data' do
+        input command 'Foo'
+        input "\x01#{msg.length}\x02#{msg}\x03"
+        input command 'Bar'
+
+        expect(output).to eq "#{command 'Foo'}#{command 'Bar'}"
       end
     end
 
