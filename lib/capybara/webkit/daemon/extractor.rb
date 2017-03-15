@@ -109,8 +109,6 @@ module Capybara
         end
 
         def binary_msg_starts(s)
-          raw s unless s.empty?
-
           self.state = :binary_msg
           header = @header + s
           @header = nil
