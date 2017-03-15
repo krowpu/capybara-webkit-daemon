@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'capybara/webkit/daemon/good_option_parser'
+require 'good_option_parser'
 
 module Capybara
   module Webkit

@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'capybara/webkit/daemon/good_option_parser/options'
+require 'good_option_parser/options'
 
-RSpec.describe Capybara::Webkit::Daemon::GoodOptionParser::Options do
+RSpec.describe GoodOptionParser::Options do
   subject { described_class.new }
 
   before do
@@ -14,7 +14,7 @@ RSpec.describe Capybara::Webkit::Daemon::GoodOptionParser::Options do
   end
 
   let :option do
-    Capybara::Webkit::Daemon::GoodOptionParser::Option.new(
+    GoodOptionParser::Option.new(
       '-b',
       '--binding',
       'Bind to the specified IP',
@@ -23,7 +23,7 @@ RSpec.describe Capybara::Webkit::Daemon::GoodOptionParser::Options do
   end
 
   let :option2 do
-    Capybara::Webkit::Daemon::GoodOptionParser::Option.new(
+    GoodOptionParser::Option.new(
       '-p',
       '--port',
       'Run on the specified port',
@@ -32,7 +32,7 @@ RSpec.describe Capybara::Webkit::Daemon::GoodOptionParser::Options do
   end
 
   let :option_short_only do
-    Capybara::Webkit::Daemon::GoodOptionParser::Option.new(
+    GoodOptionParser::Option.new(
       '-a',
       nil,
       'Foo',
@@ -41,7 +41,7 @@ RSpec.describe Capybara::Webkit::Daemon::GoodOptionParser::Options do
   end
 
   let :option_long_only do
-    Capybara::Webkit::Daemon::GoodOptionParser::Option.new(
+    GoodOptionParser::Option.new(
       nil,
       '--aaa',
       'Bar',
@@ -50,7 +50,7 @@ RSpec.describe Capybara::Webkit::Daemon::GoodOptionParser::Options do
   end
 
   let :option_without_description do
-    Capybara::Webkit::Daemon::GoodOptionParser::Option.new(
+    GoodOptionParser::Option.new(
       '-c',
       '--ccc',
       &-> {}
@@ -62,7 +62,7 @@ RSpec.describe Capybara::Webkit::Daemon::GoodOptionParser::Options do
       specify do
         expect { subject << 123 }.to raise_error(
           TypeError,
-          "expected option to be a #{Capybara::Webkit::Daemon::GoodOptionParser::Option}",
+          "expected option to be a #{GoodOptionParser::Option}",
         )
       end
     end
@@ -70,7 +70,7 @@ RSpec.describe Capybara::Webkit::Daemon::GoodOptionParser::Options do
     context 'when option duplicates' do
       specify do
         expect do
-          subject << Capybara::Webkit::Daemon::GoodOptionParser::Option.new('-p', '--port', &-> {})
+          subject << GoodOptionParser::Option.new('-p', '--port', &-> {})
         end.to raise_error ArgumentError, 'duplicate option'
       end
     end

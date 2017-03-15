@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'capybara/webkit/daemon/good_option_parser/option'
+require 'good_option_parser/option'
 
-RSpec.describe Capybara::Webkit::Daemon::GoodOptionParser::Option do
+RSpec.describe GoodOptionParser::Option do
   subject { described_class.new short, long, description, &block }
 
   let(:short) { '-p' }
