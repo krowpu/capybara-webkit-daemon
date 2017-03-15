@@ -33,6 +33,8 @@ module Capybara
           end
 
           def close
+            raise 'session already closed' unless active?
+
             @active = false
             @duration = duration
             browser.close

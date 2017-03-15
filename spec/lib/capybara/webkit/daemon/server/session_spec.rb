@@ -31,6 +31,18 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
     end
   end
 
+  describe '#close' do
+    context 'when called twice' do
+      before do
+        subject.close
+      end
+
+      it 'raises exception' do
+        expect { subject.close }.to raise_error RuntimeError, 'session already closed'
+      end
+    end
+  end
+
   describe '#client' do
     it 'returns original client' do
       expect(subject.client).to equal client
