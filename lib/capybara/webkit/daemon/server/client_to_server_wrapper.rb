@@ -37,7 +37,14 @@ module Capybara
           end
 
           def capybara_webkit_protocol_parser
-            @capybara_webkit_protocol_parser ||= CapybaraWebkitProtocolParser.new do |cmd|
+            @capybara_webkit_protocol_parser ||= CapybaraWebkitProtocolParser.new do |name, args|
+              case name
+              when 'Render'
+                render(*args)
+                true
+              else
+                false
+              end
             end
           end
 
