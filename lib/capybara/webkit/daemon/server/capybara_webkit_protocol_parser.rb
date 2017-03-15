@@ -94,14 +94,11 @@ module Capybara
               @arg_size = arg_size
             end
 
-            def call(c)
+            def call(c, &block)
               if c == "\n"
                 if @arg_size == '0'
                   @args << ''
-                  if @args.count == @args_count
-                    yield @name, @args
-                    return Name.new
-                  end
+                  return finished(&block) if @args.count == @args_count
                   return ArgSize.new @name, @args_count, args: @args
                 end
                 return Arg.new @name, @args_count, @args, @arg_size
@@ -109,6 +106,11 @@ module Capybara
 
               @arg_size += c
               self
+            end
+
+            def finished
+              yield @name, @args
+              Name.new
             end
           end
 
