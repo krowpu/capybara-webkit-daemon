@@ -24,7 +24,9 @@ module Capybara
               transitions from: :arg_size, to: :name,     after: :set_arg_size, guards: :empty_last_arg?
               transitions from: :arg_size, to: :arg_size, after: :set_arg_size, guard: :empty_arg?
               transitions from: :arg_size, to: :arg,      after: :set_arg_size
+            end
 
+            event :arg_ended do
               transitions from: :arg, to: :name,     after: :append_arg, guard: :last_arg?
               transitions from: :arg, to: :arg_size, after: :append_arg
             end
