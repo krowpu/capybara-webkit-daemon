@@ -10,19 +10,19 @@ module Capybara
         class ClientToServerWrapper < Wrapper
         private
 
+          def scan(s)
+            raw extractor.call s
+          end
+
+          def message(s); end
+
+          def render(path, width, height); end
+
           def extractor
             @extractor ||= Daemon::Extractor.new do |msg|
               message msg
             end
           end
-
-          def message(s); end
-
-          def scan(s)
-            raw extractor.call s
-          end
-
-          def render(path, width, height); end
         end
       end
     end
