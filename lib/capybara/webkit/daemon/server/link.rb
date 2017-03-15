@@ -16,11 +16,17 @@ module Capybara
           end
 
           def client_to_server_wrapper
-            @client_to_server_wrapper ||= ClientToServerWrapper.new source: client.socket, destination: browser.connection.socket
+            @client_to_server_wrapper ||= ClientToServerWrapper.new(
+              source:      client.socket,
+              destination: browser.connection.socket,
+            )
           end
 
           def server_to_client_wrapper
-            @server_to_client_wrapper ||= ServerToClientWrapper.new source: browser.connection.socket, destination: client.socket
+            @server_to_client_wrapper ||= ServerToClientWrapper.new(
+              source:      browser.connection.socket,
+              destination: client.socket,
+            )
           end
 
           def start
