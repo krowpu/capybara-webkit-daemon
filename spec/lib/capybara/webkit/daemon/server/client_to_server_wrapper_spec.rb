@@ -16,10 +16,6 @@ RSpec.describe Capybara::Webkit::Daemon::Server::ClientToServerWrapper do
     subject.round
   end
 
-  def inputs(s)
-    input "#{s}\n"
-  end
-
   def output
     orig = destination.pos
     destination.seek 0
@@ -29,13 +25,7 @@ RSpec.describe Capybara::Webkit::Daemon::Server::ClientToServerWrapper do
   end
 
   def command(name, *args)
-    inputs name
-    inputs args.size
-
-    args.each do |arg|
-      inputs arg.to_s.bytesize
-      input arg.to_s
-    end
+    "#{name}\n#{args.size}\n#{args.map { |arg| "#{arg.size}\n#{arg}" }.join}"
   end
 
   describe '#round' do
@@ -69,13 +59,13 @@ RSpec.describe Capybara::Webkit::Daemon::Server::ClientToServerWrapper do
       let(:args) { %w(/home/user/screenshot.png 1025 768) }
 
       it 'does not transfer data' do
-        command 'Render', *args
+        input command 'Render', *args
         expect(output).to be_empty
       end
 
       it 'calls handler' do
         expect(subject).to receive(:render).with(*args)
-        command 'Render', *args
+        input command 'Render', *args
       end
     end
   end
