@@ -73,6 +73,65 @@ module Capybara
           def got_arg
             @arg = nil
           end
+
+          class Command
+            attr_reader :name
+
+            def initialize(name)
+              raise TypeError, "expected name to be a #{String}" unless name.is_a? String
+
+              @name = name.freeze
+              @args_count = nil
+              @args = []
+            end
+
+            def complete?
+              @args_count && @args && @args.size == @args_count && @args.all?(&:complete?)
+            end
+
+            def args_count=(value)
+              raise 'args count already set'                                            unless @args_count.nil?
+              raise TypeError, "expected args count to be an #{Integer}"                unless value.is_a? Integer
+              raise ArgumentError, 'expected args count to be greater or equal to zero' unless value >= 0
+              @args_count = value
+            end
+
+            def <<(arg_size)
+              raise 'args are already complete' if complete?
+              @args << Arg.new(arg_size)
+              nil
+            end
+
+            def last
+              @args.fetch @args.size - 1
+            end
+
+            def to_s
+              raise 'not yet complete' unless complete?
+            end
+
+            class Arg
+              attr_reader :size
+
+              def initialize(size)
+                raise TypeError, "expected size to be an #{Integer}"                unless size.is_a? Integer
+                raise ArgumentError, 'expected size to be greater or equal to zero' unless size >= 0
+
+                @size = size
+                @value = ''
+              end
+
+              def complete?
+                @value.size == size
+              end
+
+              def <<(c)
+                raise 'arg is already complete' if complete?
+                @value += c
+                nil
+              end
+            end
+          end
         end
       end
     end
