@@ -7,9 +7,6 @@ module Capybara
   module Webkit
     module Daemon
       module Server
-        ##
-        # Extracts high-level packages from wrapped text protocol.
-        #
         class Extractor < Wrapper
         private
 

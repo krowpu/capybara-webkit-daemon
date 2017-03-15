@@ -5,6 +5,9 @@ require 'capybara/webkit/daemon/common'
 module Capybara
   module Webkit
     module Daemon
+      ##
+      # Inserts high-level packages to wrapped text protocol.
+      #
       class Inserter
         BINARY_MSG_RE = /#{Common::HEADER_CHR}|#{Common::START_CHR}|#{Common::END_CHR}/
 

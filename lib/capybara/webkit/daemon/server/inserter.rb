@@ -7,9 +7,6 @@ module Capybara
   module Webkit
     module Daemon
       module Server
-        ##
-        # Inserts high-level packages to wrapped text protocol.
-        #
         class Inserter < Wrapper
           def message(s)
             raw inserter.message s

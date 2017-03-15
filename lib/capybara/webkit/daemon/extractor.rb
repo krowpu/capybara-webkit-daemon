@@ -5,6 +5,9 @@ require 'capybara/webkit/daemon/common'
 module Capybara
   module Webkit
     module Daemon
+      ##
+      # Extracts high-level packages from wrapped text protocol.
+      #
       class Extractor
         STATES = %i(raw header msg binary_msg).freeze
 
