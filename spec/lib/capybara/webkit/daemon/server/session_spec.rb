@@ -5,6 +5,7 @@ require 'capybara/webkit/daemon/server/session'
 require 'capybara/webkit/daemon/server/client'
 require 'capybara/webkit/daemon/server/configuration'
 
+require 'timeout'
 require 'timecop'
 
 RSpec.describe Capybara::Webkit::Daemon::Server::Session do
@@ -29,6 +30,23 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
       Timecop.travel now do
         subject.close_if_time_exceeded_thread.join
         expect(subject.active?).to eq false
+      end
+    end
+
+    it 'does not wait for or close inactive session' do
+      now = Time.now
+      started_at = Time.at now - 5 * 60 # 5 minutes ago
+
+      Timecop.freeze started_at do
+        subject.close
+      end
+
+      Timecop.travel now do
+        expect do
+          Timeout.timeout 15 do
+            subject.close_if_time_exceeded_thread.join
+          end
+        end.not_to raise_error
       end
     end
   end

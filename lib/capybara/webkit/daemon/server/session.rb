@@ -55,8 +55,8 @@ module Capybara
 
           def close_if_time_exceeded_thread
             @close_if_time_exceeded_thread ||= Thread.start do
-              sleep MAX_DURATION_CHECK_INTERVAL while duration <= MAX_DURATION
-              close
+              sleep MAX_DURATION_CHECK_INTERVAL while active? && duration <= MAX_DURATION
+              close if active?
             end
           end
         end
