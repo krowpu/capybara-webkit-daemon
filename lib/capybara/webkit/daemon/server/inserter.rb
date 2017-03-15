@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'capybara/webkit/daemon/common'
+require 'capybara/webkit/daemon/inserter'
 require 'capybara/webkit/daemon/server/wrapper'
 
 module Capybara
@@ -12,11 +12,17 @@ module Capybara
         #
         class Inserter < Wrapper
           def message(s)
-            raw "#{Common::START_CHR}#{s}#{Common::END_CHR}"
+            raw inserter.message s
           end
 
           def message_binary(s)
-            raw "#{Common::HEADER_CHR}#{s.length}#{Common::START_CHR}#{s}#{Common::END_CHR}"
+            raw inserter.binary_message s
+          end
+
+        private
+
+          def inserter
+            @inserter ||= Daemon::Inserter.new
           end
         end
       end
