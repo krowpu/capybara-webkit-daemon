@@ -40,7 +40,7 @@ module Capybara
         private
 
           def commands
-            @commans ||= []
+            @commands ||= []
           end
 
           def no_args?
@@ -96,7 +96,11 @@ module Capybara
           end
 
           def getting_name
-            commands << @command if @command
+            if @command
+              commands << @command
+              @command = nil
+            end
+
             @name = ''
           end
 
