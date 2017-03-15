@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'capybara/webkit/daemon/server/wrapper'
+require 'protocol_injector'
 require 'capybara/webkit/daemon/server/capybara_webkit_protocol_parser'
 require 'capybara/webkit/daemon/messaging/extractor'
 require 'capybara/webkit/daemon/binary_messaging/extractor'
@@ -13,7 +14,14 @@ module Capybara
         private
 
           def scan(s)
-            raw capybara_webkit_protocol_parser.call extractor.call binary_extractor.call s
+            raw injector.(s)
+          end
+
+          def injector
+            @injector ||= ProtocolInjector.new
+                                          .inject(binary_extractor)
+                                          .inject(extractor)
+                                          .inject(capybara_webkit_protocol_parser)
           end
 
           def capybara_webkit_protocol_parser
