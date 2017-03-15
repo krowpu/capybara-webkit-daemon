@@ -22,15 +22,15 @@ module Capybara
             raw extractor.call s
           end
 
-          def message(s); end
-
-          def render(path, width, height); end
-
           def extractor
             @extractor ||= Daemon::Extractor.new do |msg|
               message msg
             end
           end
+
+          def message(s); end
+
+          def render(path, width, height); end
 
           def state=(sym)
             unless STATES.include? sym
