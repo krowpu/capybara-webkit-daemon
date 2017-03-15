@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'capybara/webkit/daemon/server/extractor'
+require 'capybara/webkit/daemon/server/client_to_server_wrapper'
 
-RSpec.describe Capybara::Webkit::Daemon::Server::Extractor do
+RSpec.describe Capybara::Webkit::Daemon::Server::ClientToServerWrapper do
   subject { described_class.new source: source, destination: destination }
 
   let(:source) { StringIO.new }

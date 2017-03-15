@@ -7,7 +7,7 @@ module Capybara
   module Webkit
     module Daemon
       module Server
-        class Extractor < Wrapper
+        class ClientToServerWrapper < Wrapper
         private
 
           def extractor

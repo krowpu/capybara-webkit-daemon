@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'capybara/webkit/daemon/server/inserter'
+require 'capybara/webkit/daemon/server/server_to_client_wrapper'
 
-RSpec.describe Capybara::Webkit::Daemon::Server::Inserter do
+RSpec.describe Capybara::Webkit::Daemon::Server::ServerToClientWrapper do
   subject { described_class.new source: source, destination: destination }
 
   let(:source) { StringIO.new }

@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'capybara/webkit/daemon/server/extractor'
-require 'capybara/webkit/daemon/server/inserter'
+require 'capybara/webkit/daemon/server/client_to_server_wrapper'
+require 'capybara/webkit/daemon/server/server_to_client_wrapper'
 
 module Capybara
   module Webkit
@@ -15,20 +15,20 @@ module Capybara
             @browser = browser
           end
 
-          def extractor
-            @extractor ||= Extractor.new source: client.socket, destination: browser.connection.socket
+          def client_to_server_wrapper
+            @client_to_server_wrapper ||= ClientToServerWrapper.new source: client.socket, destination: browser.connection.socket
           end
 
-          def inserter
-            @inserter ||= Inserter.new source: browser.connection.socket, destination: client.socket
+          def server_to_client_wrapper
+            @server_to_client_wrapper ||= ServerToClientWrapper.new source: browser.connection.socket, destination: client.socket
           end
 
           def start
-            extractor_thread
-            inserter_thread
+            client_to_server_thread
+            server_to_client_thread
           ensure
-            extractor_thread&.join
-            inserter_thread&.join
+            client_to_server_thread&.join
+            server_to_client_thread&.join
           end
 
           def terminate!
@@ -37,20 +37,20 @@ module Capybara
 
         private
 
-          def extractor_thread
-            @extractor_thread ||= Thread.start do
+          def client_to_server_thread
+            @client_to_server_thread ||= Thread.start do
               begin
-                extractor.round until @terminating
+                client_to_server_wrapper.round until @terminating
               rescue EOFError
                 @terminating = true
               end
             end
           end
 
-          def inserter_thread
-            @inserter_thread ||= Thread.start do
+          def server_to_client_thread
+            @server_to_client_thread ||= Thread.start do
               begin
-                inserter.round until @terminating
+                server_to_client_wrapper.round until @terminating
               rescue EOFError
                 @terminating = true
               end

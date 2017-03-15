@@ -7,7 +7,7 @@ module Capybara
   module Webkit
     module Daemon
       module Server
-        class Inserter < Wrapper
+        class ServerToClientWrapper < Wrapper
           def message(s)
             raw inserter.message s
           end
