@@ -2,7 +2,7 @@
 
 require 'capybara/webkit/daemon/server/wrapper'
 require 'capybara/webkit/daemon/server/capybara_webkit_protocol_parser'
-require 'capybara/webkit/daemon/extractor'
+require 'capybara/webkit/daemon/messaging/extractor'
 
 module Capybara
   module Webkit
@@ -20,7 +20,7 @@ module Capybara
           end
 
           def extractor
-            @extractor ||= Daemon::Extractor.new do |msg|
+            @extractor ||= Messaging::Extractor.new do |msg|
               message msg
             end
           end

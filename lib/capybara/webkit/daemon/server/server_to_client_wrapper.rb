@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-require 'capybara/webkit/daemon/inserter'
 require 'capybara/webkit/daemon/server/wrapper'
+require 'capybara/webkit/daemon/messaging/inserter'
 
 module Capybara
   module Webkit
@@ -19,7 +19,7 @@ module Capybara
         private
 
           def inserter
-            @inserter ||= Daemon::Inserter.new
+            @inserter ||= Messaging::Inserter.new
           end
         end
       end
