@@ -16,19 +16,19 @@ module Capybara
             state :arg
 
             event :newline do
-              transitions from: :name, to: :args_count
+              transitions from: :name, to: :args_count, after: :got_name
 
-              transitions from: :args_count, to: :name, guard: :zero_args?
-              transitions from: :args_count, to: :arg_size
+              transitions from: :args_count, to: :name,     after: :got_args_count, guard: :zero_args?
+              transitions from: :args_count, to: :arg_size, after: :got_args_count
 
-              transitions from: :arg_size, to: :name, guards: %i(empty_arg? last_arg?)
-              transitions from: :arg_size, to: :arg_size, guard: :empty_arg?
-              transitions from: :arg_size, to: :arg
+              transitions from: :arg_size, to: :name,     after: :got_arg_size, guards: %i(empty_arg? last_arg?)
+              transitions from: :arg_size, to: :arg_size, after: :got_arg_size, guard: :empty_arg?
+              transitions from: :arg_size, to: :arg,      after: :got_arg_size
             end
 
             event :arg_ended do
-              transitions from: :arg, to: :name, guard: :last_arg?
-              transitions from: :arg, to: :arg_size
+              transitions from: :arg, to: :name,     after: :got_arg, guard: :last_arg?
+              transitions from: :arg, to: :arg_size, after: :got_arg
             end
           end
 
