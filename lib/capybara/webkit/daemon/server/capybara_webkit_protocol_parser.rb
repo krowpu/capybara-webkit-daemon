@@ -108,6 +108,7 @@ module Capybara
 
             def to_s
               raise 'not yet complete' unless complete?
+              "#@name\n#@args_count\n#{@args.map(&:to_s).join}"
             end
 
             class Arg
@@ -129,6 +130,11 @@ module Capybara
                 raise 'arg is already complete' if complete?
                 @value += c
                 nil
+              end
+
+              def to_s
+                raise 'not yet complete' unless complete?
+                "#@size\n#@value"
               end
             end
           end
