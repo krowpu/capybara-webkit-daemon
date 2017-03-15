@@ -8,6 +8,9 @@ module Capybara
     module Daemon
       module Server
         class Session
+          MAX_DURATION = 5 * 60 # 5 minutes
+          MAX_DURATION_CHECK_INTERVAL = 10 # seconds
+
           attr_reader :client
           attr_reader :configuration
           attr_reader :started_at
@@ -19,6 +22,8 @@ module Capybara
             @started_at = Time.now.freeze
 
             browser
+
+            close_if_time_exceeded_thread
 
             @active = true
           end
@@ -46,6 +51,13 @@ module Capybara
 
           def link
             @link ||= Link.new client, browser
+          end
+
+          def close_if_time_exceeded_thread
+            @close_if_time_exceeded_thread ||= Thread.start do
+              sleep MAX_DURATION_CHECK_INTERVAL while duration <= MAX_DURATION
+              close
+            end
           end
         end
       end

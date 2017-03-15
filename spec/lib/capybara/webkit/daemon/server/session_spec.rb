@@ -15,6 +15,20 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
 
   let(:client_socket) { StringIO.new }
 
+  it 'closes after 5 minutes' do
+    now = Time.now
+    started_at = Time.at now - 5 * 60 # 5 minutes ago
+
+    Timecop.freeze started_at do
+      subject
+    end
+
+    Timecop.travel now do
+      subject.close_if_time_exceeded_thread.join
+      expect(subject.active?).to eq false
+    end
+  end
+
   describe '#active?' do
     it 'returns true' do
       expect(subject.active?).to eq true
