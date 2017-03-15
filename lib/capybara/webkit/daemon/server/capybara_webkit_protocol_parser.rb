@@ -5,8 +5,14 @@ module Capybara
     module Daemon
       module Server
         class CapybaraWebkitProtocolParser
+          def initialize(&block)
+            @block = block
+          end
+
           def call(s)
-            s
+            return s if @block.nil?
+            return s unless @block&.(s)
+            ''
           end
         end
       end

@@ -16,7 +16,8 @@ module Capybara
           end
 
           def capybara_webkit_protocol_parser
-            @capybara_webkit_protocol_parser ||= CapybaraWebkitProtocolParser.new
+            @capybara_webkit_protocol_parser ||= CapybaraWebkitProtocolParser.new do |cmd|
+            end
           end
 
           def extractor
