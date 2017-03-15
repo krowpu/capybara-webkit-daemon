@@ -15,24 +15,18 @@ module Capybara
             state :arg_size,            before_enter: :getting_arg_size,   after_exit: :got_arg_size
             state :arg,                 before_enter: :getting_arg,        after_exit: :got_arg
 
-            event :newline, before: :create_command do
-              transitions from: :name, to: :args_count
-            end
+            event :newline do
+              transitions from: :name, to: :args_count, after: :create_command
 
-            event :newline, before: :set_args_count do
-              transitions from: :args_count, to: :name
-              transitions from: :args_count, to: :arg_size
-            end
+              transitions from: :args_count, to: :name,     after: :set_args_count, guard: :command_complete?
+              transitions from: :args_count, to: :arg_size, after: :set_args_count
 
-            event :newline, before: :set_arg_size do
-              transitions from: :arg_size, to: :name
-              transitions from: :arg_size, to: :arg_size
-              transitions from: :arg_size, to: :arg
-            end
+              transitions from: :arg_size, to: :name,     after: :set_arg_size, guard: :command_complete?
+              transitions from: :arg_size, to: :arg_size, after: :set_arg_size, guard: :arg_complete?
+              transitions from: :arg_size, to: :arg,      after: :set_arg_size
 
-            event :arg_ended, before: :append_arg do
-              transitions from: :arg, to: :name
-              transitions from: :arg, to: :arg_size
+              transitions from: :arg, to: :name,     after: :append, guard: :command_complete?
+              transitions from: :arg, to: :arg_size, after: :append
             end
           end
 
@@ -41,6 +35,14 @@ module Capybara
           end
 
         private
+
+          def command_complete?
+            @command.complete?
+          end
+
+          def arg_complete?
+            @command.last.complete?
+          end
 
           def scan(s)
             s.each_char do |c|
@@ -111,7 +113,7 @@ module Capybara
           end
 
           class Command
-            attr_reader :name
+            attr_reader :name, :args_count
 
             def initialize(name)
               raise TypeError, "expected name to be a #{String}" unless name.is_a? String
