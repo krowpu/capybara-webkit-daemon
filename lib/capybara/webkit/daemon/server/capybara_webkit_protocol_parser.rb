@@ -18,14 +18,14 @@ module Capybara
             event :newline do
               transitions from: :name, to: :args_count, after: :create_command
 
-              transitions from: :args_count, to: :name,     after: :set_args_count, guard: :command_complete?
+              transitions from: :args_count, to: :name,     after: :set_args_count, guard: :no_args?
               transitions from: :args_count, to: :arg_size, after: :set_args_count
 
-              transitions from: :arg_size, to: :name,     after: :set_arg_size, guard: :command_complete?
-              transitions from: :arg_size, to: :arg_size, after: :set_arg_size, guard: :arg_complete?
+              transitions from: :arg_size, to: :name,     after: :set_arg_size, guards: :empty_last_arg?
+              transitions from: :arg_size, to: :arg_size, after: :set_arg_size, guard: :empty_arg?
               transitions from: :arg_size, to: :arg,      after: :set_arg_size
 
-              transitions from: :arg, to: :name,     after: :append, guard: :command_complete?
+              transitions from: :arg, to: :name,     after: :append, guard: :last_arg?
               transitions from: :arg, to: :arg_size, after: :append
             end
           end
@@ -43,12 +43,20 @@ module Capybara
             @commans ||= []
           end
 
-          def command_complete?
-            @command.complete?
+          def no_args?
+            @args_count == '0'
           end
 
-          def arg_complete?
-            @command.last&.complete?
+          def empty_arg?
+            @arg_size == '0'
+          end
+
+          def empty_last_arg?
+            @arg_size == '0' && @command.last_arg?
+          end
+
+          def last_arg?
+            @command.last_arg?
           end
 
           def scan(s)
@@ -129,6 +137,10 @@ module Capybara
               @name = name.freeze
               @args_count = nil
               @args = []
+            end
+
+            def last_arg?
+              @args.count == @args_count - 1
             end
 
             def complete?
