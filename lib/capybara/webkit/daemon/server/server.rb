@@ -56,7 +56,7 @@ module Capybara
             @port = nil
             @pid = nil
 
-            Process.kill :KILL, pid
+            ::Process.kill :KILL, pid
           end
 
           def open_pipe
