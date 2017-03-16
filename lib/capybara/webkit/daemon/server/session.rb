@@ -64,6 +64,7 @@ module Capybara
 
           def safe_close
             @active = false
+
             @duration = duration
 
             close_link
