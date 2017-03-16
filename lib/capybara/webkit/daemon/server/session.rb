@@ -14,6 +14,7 @@ module Capybara
           attr_reader :client
           attr_reader :configuration
           attr_reader :started_at
+          attr_reader :browser, :link
 
           def initialize(client, configuration:)
             @client = client
@@ -21,7 +22,8 @@ module Capybara
 
             @started_at = Time.now.freeze
 
-            browser
+            set_browser
+            set_link
 
             close_if_time_exceeded
 
@@ -45,19 +47,21 @@ module Capybara
             browser.close
           end
 
-          def browser
-            @browser ||= Browser.new configuration: configuration
-          end
-
-          def link
-            @link ||= Link.new client, browser
-          end
-
           def close_if_time_exceeded
             @close_if_time_exceeded ||= Thread.start do
               sleep MAX_DURATION_CHECK_INTERVAL while active? && duration <= MAX_DURATION
               close if active?
             end
+          end
+
+        private
+
+          def set_browser
+            @browser = Browser.new configuration: configuration
+          end
+
+          def set_link
+            @link = Link.new client, browser
           end
         end
       end
