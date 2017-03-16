@@ -127,6 +127,16 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
     it 'returns original client' do
       expect(subject.client).to equal client
     end
+
+    context 'when session has been closed' do
+      before do
+        subject.close
+      end
+
+      it 'returns nil' do
+        expect(subject.client).to eq nil
+      end
+    end
   end
 
   describe '#configuration' do
@@ -139,6 +149,16 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
     it 'creates browser with original configuration' do
       expect(subject.browser.configuration).to equal configuration
     end
+
+    context 'when session has been closed' do
+      before do
+        subject.close
+      end
+
+      it 'returns nil' do
+        expect(subject.browser).to eq nil
+      end
+    end
   end
 
   describe '#link' do
@@ -148,6 +168,16 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
 
     it 'creates link with created browser' do
       expect(subject.link.browser).to equal subject.browser
+    end
+
+    context 'when session has been closed' do
+      before do
+        subject.close
+      end
+
+      it 'returns nil' do
+        expect(subject.link).to eq nil
+      end
     end
   end
 end

@@ -66,6 +66,10 @@ module Capybara
             @active = false
             @duration = duration
             browser.close
+
+            @browser = nil
+            @client = nil
+            @link = nil
           end
 
           def set_browser
