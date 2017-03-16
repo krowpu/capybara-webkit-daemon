@@ -9,6 +9,10 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Browser do
 
   let(:configuration) { Capybara::Webkit::Daemon::Server::Configuration.new }
 
+  it 'provides interface for connection' do
+    expect { subject.version.lines.first }.not_to raise_error
+  end
+
   describe '#active?' do
     it 'returns true' do
       expect(subject).to be_active
