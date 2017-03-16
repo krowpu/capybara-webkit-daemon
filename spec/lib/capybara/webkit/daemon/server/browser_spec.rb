@@ -48,9 +48,20 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Browser do
       expect(subject.connection.configuration).to equal configuration
     end
 
+    it 'returns working connection' do
+      subject.connection.print "Version\n0\n"
+      expect(subject.connection.gets).to eq "ok\n"
+    end
+
     context 'when browser has been closed' do
+      let!(:connection) { subject.connection }
+
       before do
         subject.close
+      end
+
+      it 'closes connection' do
+        expect(connection).not_to be_active
       end
 
       it 'returns nil' do
