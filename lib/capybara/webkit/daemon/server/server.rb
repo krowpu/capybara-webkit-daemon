@@ -15,6 +15,7 @@ module Capybara
 
           def initialize(configuration:)
             @configuration = configuration
+
             super stderr: nil
           end
 
