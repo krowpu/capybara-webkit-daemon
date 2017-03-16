@@ -23,7 +23,7 @@ module Capybara
 
             browser
 
-            close_if_time_exceeded_thread
+            close_if_time_exceeded
 
             @active = true
           end
@@ -53,8 +53,8 @@ module Capybara
             @link ||= Link.new client, browser
           end
 
-          def close_if_time_exceeded_thread
-            @close_if_time_exceeded_thread ||= Thread.start do
+          def close_if_time_exceeded
+            @close_if_time_exceeded ||= Thread.start do
               sleep MAX_DURATION_CHECK_INTERVAL while active? && duration <= MAX_DURATION
               close if active?
             end

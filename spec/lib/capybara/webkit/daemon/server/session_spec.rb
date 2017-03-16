@@ -16,7 +16,7 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
 
   let(:client_socket) { StringIO.new }
 
-  describe '#close_if_time_exceeded_thread' do
+  describe '#close_if_time_exceeded' do
     pending 'is called during session initialization'
 
     it 'closes session after 5 minutes' do
@@ -28,7 +28,7 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
       end
 
       Timecop.travel now do
-        subject.close_if_time_exceeded_thread.join
+        subject.close_if_time_exceeded.join
         expect(subject.active?).to eq false
       end
     end
@@ -44,7 +44,7 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
       Timecop.travel now do
         expect do
           Timeout.timeout 15 do
-            subject.close_if_time_exceeded_thread.join
+            subject.close_if_time_exceeded.join
           end
         end.not_to raise_error
       end
