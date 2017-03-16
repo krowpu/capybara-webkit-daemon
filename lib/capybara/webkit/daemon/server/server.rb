@@ -49,6 +49,17 @@ module Capybara
 
           def safe_close
             @active = false
+
+            close_process
+          end
+
+          def close_process
+            pid = @pid
+
+            @port = nil
+            @pid = nil
+
+            `kill #{pid}`
           end
 
           def open_pipe
