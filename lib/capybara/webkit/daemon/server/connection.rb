@@ -33,11 +33,17 @@ module Capybara
           end
 
           def close
-            raise 'connection already closed' unless active?
-            safe_close
+            close_mutex.synchronize do
+              raise 'connection already closed' unless active?
+              safe_close
+            end
           end
 
         private
+
+          def close_mutex
+            @close_mutex ||= Mutex.new
+          end
 
           def safe_close
             @active = false
