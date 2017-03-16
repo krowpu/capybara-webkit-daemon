@@ -42,4 +42,20 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Browser do
       expect(subject.configuration).to equal configuration
     end
   end
+
+  describe '#connection' do
+    it 'creates connection with original configuration' do
+      expect(subject.connection.configuration).to equal configuration
+    end
+
+    context 'when browser has been closed' do
+      before do
+        subject.close
+      end
+
+      it 'returns nil' do
+        expect(subject.connection).to eq nil
+      end
+    end
+  end
 end
