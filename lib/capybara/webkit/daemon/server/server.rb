@@ -36,7 +36,7 @@ module Capybara
 
           def close
             close_mutex.synchronize do
-              safe_close if active?
+              safe_close
             end
           end
 
@@ -47,6 +47,8 @@ module Capybara
           end
 
           def safe_close
+            return unless active?
+
             @active = false
 
             close_process
