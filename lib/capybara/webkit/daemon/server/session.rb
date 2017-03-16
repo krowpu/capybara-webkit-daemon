@@ -40,21 +40,33 @@ module Capybara
           end
 
           def close
-            raise 'session already closed' unless active?
-
-            @active = false
-            @duration = duration
-            browser.close
+            close_mutex.synchronize do
+              raise 'session already closed' unless active?
+              safe_close
+            end
           end
 
           def close_if_time_exceeded
             @close_if_time_exceeded ||= Thread.start do
               sleep MAX_DURATION_CHECK_INTERVAL while active? && duration <= MAX_DURATION
-              close if active?
+
+              close_mutex.synchronize do
+                safe_close if active?
+              end
             end
           end
 
         private
+
+          def close_mutex
+            @close_mutex ||= Mutex.new
+          end
+
+          def safe_close
+            @active = false
+            @duration = duration
+            browser.close
+          end
 
           def set_browser
             @browser = Browser.new configuration: configuration
