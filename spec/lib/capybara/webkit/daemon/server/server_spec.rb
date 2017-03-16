@@ -42,4 +42,29 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Server do
       expect(subject.configuration).to equal configuration
     end
   end
+
+  describe '#port' do
+    it 'returns valid port number' do
+      expect(subject.port).to be_between 1024, 65535
+    end
+
+    it 'returns running server port number' do
+      conn = TCPSocket.new '0.0.0.0', subject.port
+
+      conn.write "Version\n0\n"
+      conn.flush
+
+      expect(conn.gets).to eq "ok\n"
+    end
+
+    context 'when server has been closed' do
+      before do
+        subject.close
+      end
+
+      it 'returns nil' do
+        expect(subject.port).to eq nil
+      end
+    end
+  end
 end
