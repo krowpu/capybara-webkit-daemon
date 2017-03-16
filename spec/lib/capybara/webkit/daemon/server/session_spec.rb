@@ -16,41 +16,6 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
 
   let(:client_socket) { StringIO.new }
 
-  describe '#close_if_time_exceeded' do
-    pending 'is called during session initialization'
-
-    it 'closes session after 5 minutes' do
-      now = Time.now
-      started_at = Time.at now - 5 * 60 # 5 minutes ago
-
-      Timecop.freeze started_at do
-        subject
-      end
-
-      Timecop.travel now do
-        subject.close_if_time_exceeded.join
-        expect(subject.active?).to eq false
-      end
-    end
-
-    it 'does not wait for or close inactive session' do
-      now = Time.now
-      started_at = Time.at now - 5 * 60 # 5 minutes ago
-
-      Timecop.freeze started_at do
-        subject.close
-      end
-
-      Timecop.travel now do
-        expect do
-          Timeout.timeout 15 do
-            subject.close_if_time_exceeded.join
-          end
-        end.not_to raise_error
-      end
-    end
-  end
-
   describe '#active?' do
     it 'returns true' do
       expect(subject.active?).to eq true
@@ -64,30 +29,6 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
       it 'returns false' do
         expect(subject.active?).to eq false
       end
-    end
-  end
-
-  describe '#close' do
-    context 'when called twice' do
-      before do
-        subject.close
-      end
-
-      it 'raises exception' do
-        expect { subject.close }.to raise_error RuntimeError, 'session already closed'
-      end
-    end
-  end
-
-  describe '#client' do
-    it 'returns original client' do
-      expect(subject.client).to equal client
-    end
-  end
-
-  describe '#configuration' do
-    it 'returns original configuration' do
-      expect(subject.configuration).to equal configuration
     end
   end
 
@@ -132,6 +73,65 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
 
         expect(subject.duration).to eq finished_at - started_at
       end
+    end
+  end
+
+  describe '#close' do
+    context 'when called twice' do
+      before do
+        subject.close
+      end
+
+      it 'raises exception' do
+        expect { subject.close }.to raise_error RuntimeError, 'session already closed'
+      end
+    end
+  end
+
+  describe '#close_if_time_exceeded' do
+    pending 'is called during session initialization'
+
+    it 'closes session after 5 minutes' do
+      now = Time.now
+      started_at = Time.at now - 5 * 60 # 5 minutes ago
+
+      Timecop.freeze started_at do
+        subject
+      end
+
+      Timecop.travel now do
+        subject.close_if_time_exceeded.join
+        expect(subject.active?).to eq false
+      end
+    end
+
+    it 'does not wait for or close inactive session' do
+      now = Time.now
+      started_at = Time.at now - 5 * 60 # 5 minutes ago
+
+      Timecop.freeze started_at do
+        subject.close
+      end
+
+      Timecop.travel now do
+        expect do
+          Timeout.timeout 15 do
+            subject.close_if_time_exceeded.join
+          end
+        end.not_to raise_error
+      end
+    end
+  end
+
+  describe '#client' do
+    it 'returns original client' do
+      expect(subject.client).to equal client
+    end
+  end
+
+  describe '#configuration' do
+    it 'returns original configuration' do
+      expect(subject.configuration).to equal configuration
     end
   end
 
