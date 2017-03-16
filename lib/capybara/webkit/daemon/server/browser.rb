@@ -24,12 +24,26 @@ module Capybara
           end
 
           def close
-            @active = false
-            connection.close
+            close_mutex.synchronize do
+              raise 'browser already closed' unless active?
+              safe_close
+            end
           end
 
           def connection
             @connection ||= Connection.new configuration: configuration
+          end
+
+        private
+
+          def close_mutex
+            @close_mutex ||= Mutex.new
+          end
+
+          def safe_close
+            @active = false
+
+            connection.close
           end
         end
       end

@@ -24,4 +24,16 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Browser do
       end
     end
   end
+
+  describe '#close' do
+    context 'when called twice' do
+      before do
+        subject.close
+      end
+
+      it 'raises exception' do
+        expect { subject.close }.to raise_error RuntimeError, 'browser already closed'
+      end
+    end
+  end
 end
