@@ -33,7 +33,7 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Server do
     end
 
     it 'actually kills server process' do
-      expect(`ps -p #{pid}`.lines.count).to eq 1
+      expect { Process.kill 0, pid }.to raise_error Errno::ESRCH, 'No such process'
     end
 
     context 'when called twice' do
