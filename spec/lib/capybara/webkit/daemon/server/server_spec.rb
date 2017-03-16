@@ -26,11 +26,17 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Server do
   end
 
   describe '#close' do
-    context 'when called twice' do
-      before do
-        subject.close
-      end
+    let!(:pid) { subject.pid }
 
+    before do
+      subject.close
+    end
+
+    it 'actually kills server process' do
+      expect(`ps -p #{pid}`.lines.count).to eq 1
+    end
+
+    context 'when called twice' do
       it 'raises exception' do
         expect { subject.close }.to raise_error RuntimeError, 'server already closed'
       end
