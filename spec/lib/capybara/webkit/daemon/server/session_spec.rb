@@ -18,7 +18,7 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
 
   describe '#active?' do
     it 'returns true' do
-      expect(subject.active?).to eq true
+      expect(subject).to be_active
     end
 
     context 'when session has been closed' do
@@ -27,7 +27,7 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
       end
 
       it 'returns false' do
-        expect(subject.active?).to eq false
+        expect(subject).not_to be_active
       end
     end
   end
@@ -101,7 +101,7 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
 
       Timecop.travel now do
         subject.close_if_time_exceeded.join
-        expect(subject.active?).to eq false
+        expect(subject).not_to be_active
       end
     end
 
