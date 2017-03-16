@@ -51,7 +51,7 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Server do
 
   describe '#port' do
     it 'returns valid port number' do
-      expect(subject.port).to be_between 1024, 65535
+      expect(subject.port).to be_between 1024, 65_535
     end
 
     it 'returns running server port number' do
