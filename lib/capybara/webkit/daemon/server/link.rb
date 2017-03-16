@@ -47,7 +47,7 @@ module Capybara
             @client_to_server_thread ||= Thread.start do
               begin
                 client_to_server_wrapper.round until @terminating
-              rescue EOFError
+              rescue EOFError, IOError
                 @terminating = true
               end
             end
@@ -57,7 +57,7 @@ module Capybara
             @server_to_client_thread ||= Thread.start do
               begin
                 server_to_client_wrapper.round until @terminating
-              rescue EOFError
+              rescue EOFError, IOError
                 @terminating = true
               end
             end
