@@ -11,10 +11,12 @@ module Capybara
       module Server
         class Browser < Capybara::Webkit::Browser
           attr_reader :configuration
+          attr_reader :connection
 
           def initialize(configuration:)
             @configuration = configuration
-            connection
+
+            set_connection
 
             @active = true
           end
@@ -30,10 +32,6 @@ module Capybara
             end
           end
 
-          def connection
-            @connection ||= Connection.new configuration: configuration
-          end
-
         private
 
           def close_mutex
@@ -43,7 +41,16 @@ module Capybara
           def safe_close
             @active = false
 
+            close_connection
+          end
+
+          def set_connection
+            @connection = Connection.new configuration: configuration
+          end
+
+          def close_connection
             connection.close
+            @connection = nil
           end
         end
       end
