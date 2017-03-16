@@ -46,6 +46,7 @@ module Capybara
           def safe_close
             @active = false
 
+            close_socket
             close_server
           end
 
@@ -56,6 +57,11 @@ module Capybara
           def close_server
             server.close
             @server = nil
+          end
+
+          def close_socket
+            socket.close
+            @socket = nil
           end
         end
       end

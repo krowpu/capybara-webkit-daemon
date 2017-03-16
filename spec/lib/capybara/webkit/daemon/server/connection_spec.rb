@@ -52,7 +52,7 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Connection do
       expect(subject.server.configuration).to equal configuration
     end
 
-    context 'when session has been closed' do
+    context 'when connection has been closed' do
       let!(:server) { subject.server }
 
       before do
@@ -65,6 +65,28 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Connection do
 
       it 'returns nil' do
         expect(subject.server).to eq nil
+      end
+    end
+  end
+
+  describe '#socket' do
+    it 'creates socket' do
+      expect(subject.socket).to be_a TCPSocket
+    end
+
+    context 'when connection has been closed' do
+      let!(:socket) { subject.socket }
+
+      before do
+        subject.close
+      end
+
+      it 'closes socket' do
+        expect(socket).to be_closed
+      end
+
+      it 'returns nil' do
+        expect(subject.socket).to eq nil
       end
     end
   end
