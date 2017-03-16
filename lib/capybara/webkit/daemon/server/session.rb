@@ -25,9 +25,9 @@ module Capybara
             set_browser
             set_link
 
-            close_if_time_exceeded
-
             @active = true
+
+            close_if_time_exceeded
           end
 
           def active?
