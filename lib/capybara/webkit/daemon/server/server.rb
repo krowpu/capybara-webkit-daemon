@@ -9,6 +9,8 @@ module Capybara
     module Daemon
       module Server
         class Server < Capybara::Webkit::Server
+          SERVER_PATH = Capybara::Webkit::Server::SERVER_PATH
+
           attr_reader :configuration
 
           attr_reader :stderr
@@ -25,7 +27,7 @@ module Capybara
             @pipe_stdin,
               @pipe_stdout,
               @pipe_stderr,
-              @wait_thr = Open3.popen3(env, self.class::SERVER_PATH)
+              @wait_thr = Open3.popen3(env, SERVER_PATH)
           end
 
           def env
