@@ -15,9 +15,16 @@ module Capybara
           def initialize(configuration:)
             @configuration = configuration
             connection
+
+            @active = true
+          end
+
+          def active?
+            @active
           end
 
           def close
+            @active = false
             connection.close
           end
 
