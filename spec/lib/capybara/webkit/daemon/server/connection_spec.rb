@@ -24,4 +24,10 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Connection do
       end
     end
   end
+
+  describe '#configuration' do
+    it 'returns original configuration' do
+      expect(subject.configuration).to equal configuration
+    end
+  end
 end
