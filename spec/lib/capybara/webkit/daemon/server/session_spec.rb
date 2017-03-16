@@ -16,6 +16,8 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
 
   let(:client_socket) { StringIO.new }
 
+  let(:max_duration) { configuration.to_h[:max_session_duration] }
+
   describe '#active?' do
     it 'returns true' do
       expect(subject).to be_active
@@ -93,7 +95,7 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
 
     it 'closes session after 5 minutes' do
       now = Time.now
-      started_at = Time.at now - 5 * 60 # 5 minutes ago
+      started_at = Time.at now - max_duration
 
       Timecop.freeze started_at do
         subject

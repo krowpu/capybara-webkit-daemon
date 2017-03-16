@@ -1,5 +1,7 @@
 # frozen_string_literal: true
 
+require 'capybara/webkit/daemon/duration'
+
 require 'good_option_parser'
 
 module Capybara
@@ -55,6 +57,10 @@ module Capybara
               arg = arg.()
               raise ArgumentError, 'invalid display format' unless arg =~ DISPLAY_RE
               h.merge display: arg
+            end
+
+            on '--max-session-duration', 'Specify max session duration (ex: "1h30m15s")' do |h, arg|
+              h.merge max_session_duration: Duration.new(arg.()).to_secs
             end
           end
         end

@@ -17,6 +17,7 @@ module Capybara
             binding: nil,
             port: Common::DEFAULT_PORT,
             display: nil,
+            max_session_duration: Common::DEFAULT_MAX_SESSION_DURATION,
           }.freeze
 
           attr_reader :argv, :env

@@ -8,7 +8,6 @@ module Capybara
     module Daemon
       module Server
         class Session
-          MAX_DURATION = 5 * 60 # 5 minutes
           MAX_DURATION_CHECK_INTERVAL = 10 # seconds
 
           attr_reader :client
@@ -55,9 +54,13 @@ module Capybara
 
           def close_if_time_exceeded
             @close_if_time_exceeded ||= Thread.start do
-              sleep MAX_DURATION_CHECK_INTERVAL while active? && duration <= MAX_DURATION
+              sleep MAX_DURATION_CHECK_INTERVAL while active? && duration <= max_duration
               close
             end
+          end
+
+          def max_duration
+            @max_duration ||= configuration.to_h[:max_session_duration]
           end
 
         private
