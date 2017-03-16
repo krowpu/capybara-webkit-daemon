@@ -25,6 +25,18 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Connection do
     end
   end
 
+  describe '#close' do
+    before do
+      subject.close
+    end
+
+    context 'when called twice' do
+      it 'raises exception' do
+        expect { subject.close }.to raise_error RuntimeError, 'connection already closed'
+      end
+    end
+  end
+
   describe '#configuration' do
     it 'returns original configuration' do
       expect(subject.configuration).to equal configuration
