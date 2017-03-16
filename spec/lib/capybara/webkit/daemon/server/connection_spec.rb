@@ -9,6 +9,9 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Connection do
 
   let(:configuration) { Capybara::Webkit::Daemon::Server::Configuration.new }
 
+  it { is_expected.not_to respond_to :port }
+  it { is_expected.not_to respond_to :pid  }
+
   describe '#active?' do
     it 'returns true' do
       expect(subject).to be_active

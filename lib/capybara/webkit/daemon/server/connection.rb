@@ -15,6 +15,8 @@ module Capybara
           attr_reader :server
           attr_reader :socket
 
+          private :port, :pid
+
           def initialize(configuration:)
             @socket_class = TCPSocket
 
