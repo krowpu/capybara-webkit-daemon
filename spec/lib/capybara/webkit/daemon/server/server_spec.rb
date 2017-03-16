@@ -67,4 +67,20 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Server do
       end
     end
   end
+
+  describe '#pid' do
+    it 'returns running server PID' do
+      expect(`ps -p #{subject.pid}`.lines.last.split.last).to eq 'webkit_server'
+    end
+
+    context 'when server has been closed' do
+      before do
+        subject.close
+      end
+
+      it 'returns nil' do
+        expect(subject.pid).to eq nil
+      end
+    end
+  end
 end
