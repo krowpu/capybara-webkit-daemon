@@ -26,9 +26,7 @@ module Capybara
           end
 
           def close
-            close_mutex.synchronize do
-              safe_close
-            end
+            safe_close
           end
 
         private
@@ -38,11 +36,13 @@ module Capybara
           end
 
           def safe_close
-            return unless active?
+            close_mutex.synchronize do
+              return unless active?
 
-            @active = false
+              @active = false
 
-            close_connection
+              close_connection
+            end
           end
 
           def set_connection

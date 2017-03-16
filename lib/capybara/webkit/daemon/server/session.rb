@@ -40,18 +40,13 @@ module Capybara
           end
 
           def close
-            close_mutex.synchronize do
-              safe_close
-            end
+            safe_close
           end
 
           def close_if_time_exceeded
             @close_if_time_exceeded ||= Thread.start do
               sleep MAX_DURATION_CHECK_INTERVAL while active? && duration <= MAX_DURATION
-
-              close_mutex.synchronize do
-                safe_close
-              end
+              safe_close
             end
           end
 
@@ -62,15 +57,17 @@ module Capybara
           end
 
           def safe_close
-            return unless active?
+            close_mutex.synchronize do
+              return unless active?
 
-            @active = false
+              @active = false
 
-            @duration = duration
+              @duration = duration
 
-            close_link
-            close_client
-            close_browser
+              close_link
+              close_client
+              close_browser
+            end
           end
 
           def close_client
