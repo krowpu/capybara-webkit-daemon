@@ -66,7 +66,7 @@ module Capybara
             @pipe_stdin,
               @pipe_stdout,
               @pipe_stderr,
-              @wait_thr = Open3.popen3(env, SERVER_PATH)
+              @wait_thr = Open3.popen3 env, SERVER_PATH
           end
 
           def env
