@@ -75,6 +75,10 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Server do
   end
 
   describe '#pid' do
+    it 'returns real process PID' do
+      expect(Process.kill(0, subject.pid)).to eq 1
+    end
+
     it 'returns running server PID' do
       expect(`ps -p #{subject.pid}`.lines.last.split.last).to eq 'webkit_server'
     end
