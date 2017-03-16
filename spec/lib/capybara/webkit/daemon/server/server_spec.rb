@@ -61,8 +61,6 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Server do
       conn.flush
 
       expect(conn.gets).to eq "ok\n"
-
-      conn.close
     end
 
     context 'when server has been closed' do
