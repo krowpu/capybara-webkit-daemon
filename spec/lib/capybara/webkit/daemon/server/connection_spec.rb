@@ -97,4 +97,18 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Connection do
       end
     end
   end
+
+  describe '#puts, #gets' do
+    it 'really connects with server' do
+      subject.puts "Version\n0"
+      expect(subject.gets).to eq "ok\n"
+    end
+  end
+
+  describe '#print, #read' do
+    it 'really connects with server' do
+      subject.print "Version\n0\n"
+      expect(subject.read(3)).to eq "ok\n"
+    end
+  end
 end
