@@ -65,19 +65,31 @@ module Capybara
           def safe_close
             @active = false
             @duration = duration
-            browser.close
 
-            @browser = nil
+            close_link
+            close_client
+            close_browser
+          end
+
+          def close_client
             @client = nil
-            @link = nil
           end
 
           def set_browser
             @browser = Browser.new configuration: configuration
           end
 
+          def close_browser
+            browser.close
+            @browser = nil
+          end
+
           def set_link
             @link = Link.new client, browser
+          end
+
+          def close_link
+            @link = nil
           end
         end
       end
