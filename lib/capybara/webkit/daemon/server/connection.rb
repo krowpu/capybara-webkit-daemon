@@ -16,9 +16,12 @@ module Capybara
           attr_reader :socket
 
           def initialize(configuration:)
+            @socket_class = TCPSocket
+
             @configuration = configuration
 
-            super server: server
+            set_server
+            connect
 
             @active = true
           end
@@ -34,10 +37,6 @@ module Capybara
             end
           end
 
-          def server
-            @server ||= Capybara::Webkit::Daemon::Server::Server.new configuration: configuration
-          end
-
         private
 
           def close_mutex
@@ -46,6 +45,10 @@ module Capybara
 
           def safe_close
             @active = false
+          end
+
+          def set_server
+            @server = Capybara::Webkit::Daemon::Server::Server.new configuration: configuration
           end
         end
       end
