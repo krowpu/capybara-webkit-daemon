@@ -82,8 +82,8 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
         subject.close
       end
 
-      it 'raises exception' do
-        expect { subject.close }.to raise_error RuntimeError, 'session already closed'
+      it 'does not raise exception' do
+        expect { subject.close }.not_to raise_error
       end
     end
   end

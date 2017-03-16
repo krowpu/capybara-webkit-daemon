@@ -34,8 +34,7 @@ module Capybara
 
           def close
             close_mutex.synchronize do
-              raise 'connection already closed' unless active?
-              safe_close
+              safe_close if active?
             end
           end
 
