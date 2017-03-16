@@ -55,7 +55,7 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Server do
     end
 
     it 'returns running server port number' do
-      conn = TCPSocket.new '0.0.0.0', subject.port
+      conn = TCPSocket.new '127.0.0.1', subject.port
 
       conn.write "Version\n0\n"
       conn.flush
