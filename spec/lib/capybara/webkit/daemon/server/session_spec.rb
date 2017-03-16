@@ -146,13 +146,23 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Session do
   end
 
   describe '#browser' do
+    it 'creates active browser' do
+      expect(subject.browser).to be_active
+    end
+
     it 'creates browser with original configuration' do
       expect(subject.browser.configuration).to equal configuration
     end
 
     context 'when session has been closed' do
+      let!(:browser) { subject.browser }
+
       before do
         subject.close
+      end
+
+      it 'closes browser' do
+        expect(browser).not_to be_active
       end
 
       it 'returns nil' do
