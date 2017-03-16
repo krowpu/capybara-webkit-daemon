@@ -74,6 +74,13 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Connection do
       expect(subject.socket).to be_a TCPSocket
     end
 
+    it 'returns working socket' do
+      subject.socket.write "Version\n0\n"
+      subject.socket.flush
+
+      expect(subject.socket.gets).to eq "ok\n"
+    end
+
     context 'when connection has been closed' do
       let!(:socket) { subject.socket }
 
