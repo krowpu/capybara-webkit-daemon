@@ -42,4 +42,30 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Connection do
       expect(subject.configuration).to equal configuration
     end
   end
+
+  describe '#server' do
+    it 'creates active server' do
+      expect(subject.server).to be_active
+    end
+
+    it 'creates server with original configuration' do
+      expect(subject.server.configuration).to equal configuration
+    end
+
+    context 'when session has been closed' do
+      let!(:server) { subject.server }
+
+      before do
+        subject.close
+      end
+
+      it 'closes server' do
+        expect(server).not_to be_active
+      end
+
+      it 'returns nil' do
+        expect(subject.server).to eq nil
+      end
+    end
+  end
 end
