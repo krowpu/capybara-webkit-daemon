@@ -19,6 +19,23 @@ module Capybara
             @configuration = configuration
 
             super stderr: nil
+
+            open_pipe
+            discover_port
+            discover_pid
+            forward_output_in_background_thread
+
+            @active = true
+          end
+
+          def start; end
+
+          def active?
+            @active
+          end
+
+          def close
+            @active = false
           end
 
         private

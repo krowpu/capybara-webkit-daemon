@@ -9,6 +9,22 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Server do
 
   let(:configuration) { Capybara::Webkit::Daemon::Server::Configuration.new }
 
+  describe '#active?' do
+    it 'returns true' do
+      expect(subject).to be_active
+    end
+
+    context 'when server has been closed' do
+      before do
+        subject.close
+      end
+
+      it 'returns false' do
+        expect(subject).not_to be_active
+      end
+    end
+  end
+
   describe '#configuration' do
     it 'returns original configuration' do
       expect(subject.configuration).to equal configuration
