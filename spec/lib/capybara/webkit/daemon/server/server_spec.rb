@@ -25,6 +25,18 @@ RSpec.describe Capybara::Webkit::Daemon::Server::Server do
     end
   end
 
+  describe '#close' do
+    context 'when called twice' do
+      before do
+        subject.close
+      end
+
+      it 'raises exception' do
+        expect { subject.close }.to raise_error RuntimeError, 'server already closed'
+      end
+    end
+  end
+
   describe '#configuration' do
     it 'returns original configuration' do
       expect(subject.configuration).to equal configuration

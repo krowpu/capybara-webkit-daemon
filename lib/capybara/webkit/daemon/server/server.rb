@@ -35,6 +35,7 @@ module Capybara
           end
 
           def close
+            raise 'server already closed' unless active?
             @active = false
           end
 
