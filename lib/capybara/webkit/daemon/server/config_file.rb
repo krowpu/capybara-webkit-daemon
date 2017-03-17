@@ -12,11 +12,7 @@ module Capybara
           end
 
           def call(configuration)
-            raise 'global variable $capybara_webkit_daemon_config is in use' unless $capybara_webkit_daemon_config.nil?
-
-            $capybara_webkit_daemon_config = configuration
-            load path
-            $capybara_webkit_daemon_config = nil
+            configuration.instance_eval File.read path
           end
 
         private
