@@ -2,6 +2,8 @@
 
 require 'good_option_parser'
 
+require 'capybara/webkit/daemon/server/config_file'
+
 module Capybara
   module Webkit
     module Daemon
@@ -32,6 +34,7 @@ module Capybara
 
             on '-C', '--config', 'Configuration file' do |c, arg|
               c.config_file = arg.()
+              ConfigFile.new(c.config_file).(c)
             end
 
             on '-b', '--binding', 'Bind to the specified IP' do |c, arg|
