@@ -16,31 +16,11 @@ module Capybara
             end.to_h.freeze
           end
 
-          def to_h
-            return @to_h if @to_h
-
-            h = {}
-
-            h[:log_level] = parse_log_level if env_log_level
-            h[:binding]   = env_binding     if env_binding
-            h[:port]      = parse_port      if env_port
-            h[:display]   = parse_display   if env_display
-
-            @to_h = h.freeze
-          end
-
-          def parse_log_level
-            env_log_level.downcase.to_sym
-          end
-
-          def parse_port
-            raise unless env_port =~ /\A\d+\z/
-            env_port.to_i
-          end
-
-          def parse_display
-            raise unless env_display =~ /\A:\d+\z/
-            env_display
+          def call(configuration)
+            configuration.log_level = env_log_level if env_log_level
+            configuration.binding   = env_binding   if env_binding
+            configuration.port      = env_port      if env_port
+            configuration.display   = env_display   if env_display
           end
 
           def env_log_level

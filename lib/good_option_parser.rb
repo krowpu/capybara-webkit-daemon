@@ -61,8 +61,8 @@ class GoodOptionParser
     @tokenized ||= tokenize(argv).freeze
   end
 
-  def parse(initial)
-    Parser.new(self.class.options, tokenized, initial).config
+  def parse(initial, mutate_config: false)
+    Parser.new(self.class.options, tokenized, initial, mutate_config: mutate_config).config
   end
 
 private
