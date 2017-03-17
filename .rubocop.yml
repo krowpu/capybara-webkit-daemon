@@ -27,6 +27,9 @@ Style/Documentation:
 Style/DoubleNegation:
   Enabled: false
 
+Style/GlobalVars:
+  Enabled: false
+
 Style/LambdaCall:
   Enabled: false
 
