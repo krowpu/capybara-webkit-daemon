@@ -58,6 +58,7 @@ module Capybara
             return @log_file = nil if value.nil?
 
             raise TypeError, "expected a #{String}" unless value.is_a? String
+            @log_file = value
           end
 
           def log_level=(value)
