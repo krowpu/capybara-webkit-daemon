@@ -30,6 +30,10 @@ module Capybara
               c.log_level = :debug
             end
 
+            on '-C', '--config', 'Configuration file' do |c, arg|
+              c.config_file = arg.()
+            end
+
             on '-b', '--binding', 'Bind to the specified IP' do |c, arg|
               c.binding = arg.()
             end

@@ -15,6 +15,7 @@ module Capybara
 
           DEFAULTS = {
             help: false,
+            config_file: nil,
             pid_file: nil,
             log_file: nil,
             log_level: :info,
@@ -25,6 +26,7 @@ module Capybara
           }.freeze
 
           attr_reader :help
+          attr_reader :config_file
           attr_reader :pid_file
           attr_reader :log_file, :log_level
           attr_reader :binding, :port
@@ -45,6 +47,13 @@ module Capybara
 
           def help=(value)
             @help = !!value
+          end
+
+          def config_file=(value)
+            return @config_file = nil if value.nil?
+
+            raise TypeError, "expected a #{String}" unless value.is_a? String
+            @config_file = value.to_s
           end
 
           def pid_file=(value)
