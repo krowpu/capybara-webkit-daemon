@@ -2,11 +2,12 @@
 
 class GoodOptionParser
   class Parser
-    attr_reader :args, :config
+    attr_reader :args, :config, :mutate_config
 
-    def initialize(options, tokens, initial)
+    def initialize(options, tokens, initial, mutate_config: false)
       @options = options
       @tokens = tokens.dup
+      self.mutate_config = mutate_config
 
       @args = []
       @config = initial
@@ -18,10 +19,21 @@ class GoodOptionParser
 
     attr_reader :options
 
+    def mutate_config=(value)
+      @mutate_config = !!value
+    end
+
     def round
       token = @tokens.shift
+
       option = options.match token
-      return @config = option.block.(@config, method(:arg)) if option
+
+      if option
+        new_config = option.block.(@config, method(:arg))
+        @config = new_config unless mutate_config
+        return
+      end
+
       @args << token
     end
 

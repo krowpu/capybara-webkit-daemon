@@ -24,6 +24,9 @@ Style/AndOr:
 Style/Documentation:
   Enabled: false
 
+Style/DoubleNegation:
+  Enabled: false
+
 Style/LambdaCall:
   Enabled: false
 

@@ -1,7 +1,5 @@
 # frozen_string_literal: true
 
-require 'capybara/webkit/daemon/duration'
-
 require 'good_option_parser'
 
 module Capybara
@@ -15,52 +13,45 @@ module Capybara
             @option_parser = OptionParser.new argv
           end
 
-          def to_h
-            @to_h ||= option_parser.parse({})
+          def call(configuration)
+            option_parser.parse configuration, mutate_config: true
           end
 
           class OptionParser < GoodOptionParser
-            PORT_RE = /\A\d+\z/
-            DISPLAY_RE = /\A:\d+\z/
-
-            on '-h', '--help', 'Show this help' do |h|
-              h.merge help: true
+            on '-h', '--help', 'Show this help' do |c|
+              c.help = true
             end
 
-            on '-q', '--quiet', 'Be quiet' do |h|
-              h.merge log_level: :warn
+            on '-q', '--quiet', 'Be quiet' do |c|
+              c.log_level = :warn
             end
 
-            on '-D', '--debug', 'Debug logging' do |h|
-              h.merge log_level: :debug
+            on '-D', '--debug', 'Debug logging' do |c|
+              c.log_level = :debug
             end
 
-            on '-b', '--binding', 'Bind to the specified IP' do |h, arg|
-              h.merge binding: arg.()
+            on '-b', '--binding', 'Bind to the specified IP' do |c, arg|
+              c.binding = arg.()
             end
 
-            on '-p', '--port', 'Run on the specified port' do |h, arg|
-              arg = arg.()
-              raise ArgumentError, 'invalid port format' unless arg =~ PORT_RE
-              h.merge port: arg.to_i
+            on '-p', '--port', 'Run on the specified port' do |c, arg|
+              c.port = arg.()
             end
 
-            on '-L', '--logfile', 'Specify the log file' do |h, arg|
-              h.merge log_file: arg.()
+            on '-L', '--logfile', 'Specify the log file' do |c, arg|
+              c.log_file = arg.()
             end
 
-            on '-P', '--pidfile', 'Specify the PID file' do |h, arg|
-              h.merge pid_file: arg.()
+            on '-P', '--pidfile', 'Specify the PID file' do |c, arg|
+              c.pid_file = arg.()
             end
 
-            on '-d', '--display', 'Specify Xvfb display' do |h, arg|
-              arg = arg.()
-              raise ArgumentError, 'invalid display format' unless arg =~ DISPLAY_RE
-              h.merge display: arg
+            on '-d', '--display', 'Specify Xvfb display' do |c, arg|
+              c.display = arg.()
             end
 
-            on '--max-session-duration', 'Specify max session duration (ex: "1h30m15s")' do |h, arg|
-              h.merge max_session_duration: Duration.new(arg.()).to_secs
+            on '--max-session-duration', 'Specify max session duration (ex: "1h30m15s")' do |c, arg|
+              c.max_session_duration = arg.()
             end
           end
         end

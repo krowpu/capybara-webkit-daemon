@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'capybara/webkit/daemon/server/configuration'
+require 'capybara/webkit/daemon/server/stage'
 require 'capybara/webkit/daemon/server/streams'
 require 'capybara/webkit/daemon/server/pid_file'
 require 'capybara/webkit/daemon/server/signal_handler'
@@ -48,8 +48,12 @@ module Capybara
             close_output
           end
 
+          def stage
+            @stage ||= Stage.new argv: argv, env: env
+          end
+
           def configuration
-            @configuration ||= Configuration.new argv: argv, env: env
+            @configuration ||= stage.configuration
           end
 
           def signal_handler
