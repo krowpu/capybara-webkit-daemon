@@ -25,7 +25,7 @@ module Capybara
             set_browser
             set_link
 
-            @id = redis&.add_session
+            @id = redis&.add_session started_at
 
             @active = true
 

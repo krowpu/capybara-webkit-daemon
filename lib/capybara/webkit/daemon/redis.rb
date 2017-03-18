@@ -20,14 +20,16 @@ module Capybara
             conn.info('server')['redis_version']
           end
 
-          def add_session
+          def add_session(started_at)
             id = SecureRandom.uuid
             conn.sadd 'sessions', id
+            conn.set "session:#{id}:started_at", started_at
             id
           end
 
           def delete_session(id)
             conn.srem 'sessions', id
+            conn.del "session:#{id}:started_at"
           end
 
         private
