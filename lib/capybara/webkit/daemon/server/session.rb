@@ -11,13 +11,14 @@ module Capybara
           MAX_DURATION_CHECK_INTERVAL = 10 # seconds
 
           attr_reader :client
-          attr_reader :configuration
+          attr_reader :configuration, :redis
           attr_reader :started_at
           attr_reader :browser, :link
 
-          def initialize(client, configuration:)
+          def initialize(client, configuration:, redis: nil)
             @client = client
             @configuration = configuration
+            @redis = redis
 
             @started_at = Time.now.freeze
 

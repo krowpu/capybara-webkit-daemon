@@ -88,6 +88,7 @@ module Capybara
             @listener ||= Listener.new(
               configuration: configuration,
               logger: logger,
+              redis: redis,
             )
           end
 

@@ -14,15 +14,16 @@ module Capybara
         class Listener
           LISTEN_TIMEOUT = 1
 
-          attr_reader :configuration, :logger
+          attr_reader :configuration, :logger, :redis
 
           private :logger
 
           attr_reader :accepting_new_connections
 
-          def initialize(configuration:, logger:)
+          def initialize(configuration:, logger:, redis: nil)
             @configuration = configuration
             @logger = logger
+            @redis = redis
 
             @mutex = Mutex.new
             @links = Set.new
@@ -92,7 +93,7 @@ module Capybara
             logger.debug "New connection from #{client_socket.peeraddr.inspect}"
 
             client = Client.new client_socket
-            session = Session.new client, configuration: configuration
+            session = Session.new client, configuration: configuration, redis: redis
 
             add_link session.link
             session.link.start
