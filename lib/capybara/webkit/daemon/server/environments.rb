@@ -21,6 +21,7 @@ module Capybara
             configuration.binding   = env_binding   if env_binding
             configuration.port      = env_port      if env_port
             configuration.display   = env_display   if env_display
+            configuration.redis_url = env_redis_url if env_redis_url
           end
 
           def env_log_level
@@ -37,6 +38,10 @@ module Capybara
 
           def env_display
             env['CAPYBARA_WEBKIT_DAEMON_DISPLAY']
+          end
+
+          def env_redis_url
+            env['REDIS_PROVIDER']
           end
         end
       end

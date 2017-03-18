@@ -23,6 +23,7 @@ module Capybara
             port: Common::DEFAULT_PORT,
             display: nil,
             max_session_duration: Common::DEFAULT_MAX_SESSION_DURATION,
+            redis_url: nil,
           }.freeze
 
           attr_reader :help
@@ -32,6 +33,7 @@ module Capybara
           attr_reader :binding, :port
           attr_reader :display
           attr_reader :max_session_duration
+          attr_reader :redis_url
 
           def initialize
             DEFAULTS.each do |k, v|
@@ -108,6 +110,13 @@ module Capybara
             end
 
             @max_session_duration = Duration.new(value).to_secs
+          end
+
+          def redis_url=(value)
+            return @redis_url = nil if value.nil?
+
+            raise TypeError, "expected a #{String}" unless value.is_a? String
+            @redis_url = value
           end
         end
       end

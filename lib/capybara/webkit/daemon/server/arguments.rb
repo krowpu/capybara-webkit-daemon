@@ -60,6 +60,10 @@ module Capybara
             on '--max-session-duration', 'Specify max session duration (ex: "1h30m15s")' do |c, arg|
               c.max_session_duration = arg.()
             end
+
+            on '--redis-url', 'Redis URL' do |c, arg|
+              c.redis_url = arg.()
+            end
           end
         end
       end
