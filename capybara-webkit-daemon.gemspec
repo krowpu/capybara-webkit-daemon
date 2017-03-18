@@ -48,4 +48,6 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency 'capybara',        '2.4.4'
   spec.add_runtime_dependency 'capybara-webkit', '1.11.1'
+
+  spec.add_runtime_dependency 'redis', '~> 3.3'
 end
