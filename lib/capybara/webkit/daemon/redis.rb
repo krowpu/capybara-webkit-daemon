@@ -7,6 +7,8 @@ module Capybara
     module Daemon
       module Server
         class Redis
+          attr_reader :url
+
           def initialize(url)
             self.url = url
             set_conn
@@ -18,7 +20,7 @@ module Capybara
 
           def url=(value)
             raise TypeError, "expected url to be a #{String}" unless value.is_a? String
-            @value = value
+            @url = value.dup.freeze
           end
 
           def set_conn
