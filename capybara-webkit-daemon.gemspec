@@ -11,7 +11,7 @@ Gem::Specification.new do |spec|
   spec.name     = 'capybara-webkit-daemon'
   spec.version  = Capybara::Webkit::Daemon::Version::VERSION
   spec.summary  = 'Long-living Capybara Webkit process for web scraping.'
-  spec.homepage = 'https://github.com/krowpu/capybara-webkit-daemon'
+  spec.homepage = 'https://github.com/krowpu/scrapod-server'
   spec.license  = 'MIT'
 
   spec.author = 'krowpu'
