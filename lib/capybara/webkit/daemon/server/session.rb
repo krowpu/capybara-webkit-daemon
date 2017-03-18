@@ -25,6 +25,8 @@ module Capybara
             set_browser
             set_link
 
+            @id = redis&.add_session
+
             @active = true
 
             close_if_time_exceeded
@@ -44,6 +46,8 @@ module Capybara
               return unless active?
 
               @active = false
+
+              redis&.delete_session @id
 
               @duration = duration
 

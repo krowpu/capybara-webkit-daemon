@@ -2,6 +2,8 @@
 
 require 'redis'
 
+require 'securerandom'
+
 module Capybara
   module Webkit
     module Daemon
@@ -16,6 +18,16 @@ module Capybara
 
           def version
             conn.info('server')['redis_version']
+          end
+
+          def add_session
+            id = SecureRandom.uuid
+            conn.sadd 'sessions', id
+            id
+          end
+
+          def delete_session(id)
+            conn.srem 'sessions', id
           end
 
         private
