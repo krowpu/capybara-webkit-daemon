@@ -7,6 +7,8 @@ require 'capybara/webkit/daemon/version'
 require 'capybara/webkit/daemon/common'
 require 'capybara/webkit/daemon/duration'
 
+require 'capybara/webkit/daemon/redis'
+
 require 'capybara/webkit/daemon/messaging'
 require 'capybara/webkit/daemon/messaging/inserter'
 require 'capybara/webkit/daemon/messaging/extractor'
