@@ -17,11 +17,6 @@ require 'capybara/webkit/daemon/binary_messaging'
 require 'capybara/webkit/daemon/binary_messaging/inserter'
 require 'capybara/webkit/daemon/binary_messaging/extractor'
 
-require 'capybara/webkit/daemon/client/server'
-require 'capybara/webkit/daemon/client/connection'
-require 'capybara/webkit/daemon/client/browser'
-require 'capybara/webkit/daemon/client/driver'
-
 require 'capybara/webkit/daemon/server/arguments'
 require 'capybara/webkit/daemon/server/browser'
 require 'capybara/webkit/daemon/server/capybara_webkit_protocol_parser'
