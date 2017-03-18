@@ -37,7 +37,7 @@ module Capybara
               return stderr.print Arguments::OptionParser.options.description
             end
 
-            logger.info "Running with Redis at #{redis.url}" if redis
+            logger.info "Running with Redis #{redis.version} at #{redis.url}" if redis
 
             pid_file&.create
 

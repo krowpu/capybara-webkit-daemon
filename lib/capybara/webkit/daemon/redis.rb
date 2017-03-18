@@ -14,6 +14,10 @@ module Capybara
             set_conn
           end
 
+          def version
+            conn.info('server')['redis_version']
+          end
+
         private
 
           attr_reader :conn
