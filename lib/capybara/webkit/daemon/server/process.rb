@@ -6,6 +6,7 @@ require 'capybara/webkit/daemon/server/pid_file'
 require 'capybara/webkit/daemon/server/signal_handler'
 require 'capybara/webkit/daemon/server/logger'
 require 'capybara/webkit/daemon/server/listener'
+require 'capybara/webkit/daemon/redis'
 
 module Capybara
   module Webkit
@@ -86,6 +87,10 @@ module Capybara
               configuration: configuration,
               logger: logger,
             )
+          end
+
+          def redis
+            @redis ||= Redis.new configuration.redis_url if configuration.redis_url
           end
 
           def close_output
