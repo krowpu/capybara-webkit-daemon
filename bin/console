@@ -6,29 +6,4 @@ require 'pry'
 
 require 'capybara/webkit/daemon'
 
-puts 'Ensure you are running Capybara Webkit daemon on localhost'
-
-Capybara::Webkit.configure do |config|
-  # Enable debug mode. Prints a log of everything the driver is doing.
-  config.debug = true
-
-  # Allow pages to make requests to any URL without issuing a warning.
-  config.allow_unknown_urls
-end
-
-Capybara.register_driver :webkit_daemon do |app|
-  Capybara::Webkit::Daemon::Client::Driver.new(
-    app,
-    Capybara::Webkit::Configuration.to_hash.merge(
-      server: Capybara::Webkit::Daemon::Client::Server.new,
-    ),
-  )
-end
-
-puts 'Create session with method `new_session` (which uses `Capybara::Session.new :webkit_daemon`)'
-
-def new_session
-  Capybara::Session.new :webkit_daemon
-end
-
 Pry.start
