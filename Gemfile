@@ -2,5 +2,5 @@
 
 source 'https://rubygems.org'
 
-# Specify your gem's dependencies in capybara-webkit-daemon.gemspec
+# Specify your gem's dependencies in scrapod-server.gemspec
 gemspec
