@@ -8,7 +8,7 @@ $LOAD_PATH.unshift lib unless $LOAD_PATH.include? lib
 require 'scrapod/server/version'
 
 Gem::Specification.new do |spec|
-  spec.name     = 'scrapod'
+  spec.name     = 'scrapod-server'
   spec.version  = Scrapod::Server::Version::VERSION
   spec.summary  = 'Long-living Capybara Webkit process for web scraping.'
   spec.homepage = 'https://github.com/krowpu/scrapod-server'
