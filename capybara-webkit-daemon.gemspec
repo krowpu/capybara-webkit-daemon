@@ -17,7 +17,7 @@ Gem::Specification.new do |spec|
   spec.author = 'krowpu'
   spec.email  = 'krowpu@tightmail.com'
 
-  spec.description = <<-END.gsub(/^\s*/, '')
+  spec.description = <<-END.split("\n").map(&:strip).join ' '
     Long-living Capybara Webkit server process which does not leak memory
     when used in Sidekiq workers. The daemon is listening on a specific TCP
     port, runs `webkit_server` process for each connection and kills it when
