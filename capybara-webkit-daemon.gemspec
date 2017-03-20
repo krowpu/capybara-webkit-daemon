@@ -5,11 +5,11 @@ lib = File.expand_path '../lib', __FILE__
 
 $LOAD_PATH.unshift lib unless $LOAD_PATH.include? lib
 
-require 'capybara/webkit/daemon/version'
+require 'scrapod/server/version'
 
 Gem::Specification.new do |spec|
   spec.name     = 'capybara-webkit-daemon'
-  spec.version  = Capybara::Webkit::Daemon::Version::VERSION
+  spec.version  = Scrapod::Server::Version::VERSION
   spec.summary  = 'Long-living Capybara Webkit process for web scraping.'
   spec.homepage = 'https://github.com/krowpu/scrapod-server'
   spec.license  = 'MIT'

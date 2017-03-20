@@ -2,8 +2,9 @@
 
 # This file requires all library files for proper coverage calculation.
 
-require 'capybara/webkit/daemon'
-require 'capybara/webkit/daemon/version'
+require 'scrapod/server'
+require 'scrapod/server/version'
+
 require 'capybara/webkit/daemon/common'
 require 'capybara/webkit/daemon/duration'
 

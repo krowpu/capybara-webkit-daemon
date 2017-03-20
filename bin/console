@@ -4,6 +4,6 @@
 require 'bundler/setup'
 require 'pry'
 
-require 'capybara/webkit/daemon'
+require 'scrapod/server'
 
 Pry.start
