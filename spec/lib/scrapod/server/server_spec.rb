@@ -36,7 +36,11 @@ RSpec.describe Scrapod::Server::Server do
 
     it 'actually kills server process' do
       Timeout.timeout 5 do
-        Process.waitpid pid
+        begin
+          Process.waitpid pid
+        rescue Errno::ECHILD
+          break
+        end
       end
 
       expect { Process.kill 0, pid }.to raise_error Errno::ESRCH, 'No such process'
