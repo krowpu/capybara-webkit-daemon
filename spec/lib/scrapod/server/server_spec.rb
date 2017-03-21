@@ -4,6 +4,8 @@ require 'scrapod/server/server'
 
 require 'capybara/webkit/daemon/server/configuration'
 
+require 'timeout'
+
 RSpec.describe Scrapod::Server::Server do
   subject { described_class.new configuration: configuration }
 
@@ -33,7 +35,11 @@ RSpec.describe Scrapod::Server::Server do
     end
 
     it 'actually kills server process' do
-      expect(`ps -p #{pid}`.lines.count).to eq 1
+      Timeout.timeout 5 do
+        Process.waitpid pid
+      end
+
+      expect { Process.kill 0, pid }.to raise_error Errno::ESRCH, 'No such process'
     end
 
     context 'when called twice' do
