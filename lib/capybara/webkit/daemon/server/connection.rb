@@ -4,7 +4,7 @@ module Capybara; end
 
 require 'capybara/webkit/connection'
 
-require 'capybara/webkit/daemon/server/server'
+require 'scrapod/server/server'
 
 module Capybara
   module Webkit
@@ -50,7 +50,7 @@ module Capybara
           end
 
           def set_server
-            @server = Capybara::Webkit::Daemon::Server::Server.new configuration: configuration
+            @server = Scrapod::Server::Server.new configuration: configuration
           end
 
           def close_server
