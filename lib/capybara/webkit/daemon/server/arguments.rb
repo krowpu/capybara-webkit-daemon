@@ -28,7 +28,7 @@ module Capybara
               c.log_level = :warn
             end
 
-            on '-D', '--debug', 'Debug logging' do |c|
+            on '-v', '--verbose', 'Be verbose' do |c|
               c.log_level = :debug
             end
 
