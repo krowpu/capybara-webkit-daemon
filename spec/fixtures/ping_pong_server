@@ -1,0 +1,20 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+require 'socket'
+
+port = rand 1024..65_535
+
+server = TCPServer.new port
+
+puts "Ping-pong server started, listening on port: #{port}"
+
+loop do
+  Thread.start server.accept do |client|
+    loop do
+      s = client.gets
+      break if s.nil?
+      client.puts 'pong' if s == "ping\n"
+    end
+  end
+end
