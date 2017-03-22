@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'capybara/webkit/daemon/server/browser'
+require 'scrapod/server/browser'
 require 'capybara/webkit/daemon/server/link'
 
 module Capybara
@@ -79,7 +79,7 @@ module Capybara
           end
 
           def set_browser
-            @browser = Browser.new configuration: configuration
+            @browser = Scrapod::Server::Browser.new configuration: configuration
           end
 
           def close_browser

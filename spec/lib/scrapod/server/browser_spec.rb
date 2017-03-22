@@ -1,10 +1,10 @@
 # frozen_string_literal: true
 
-require 'capybara/webkit/daemon/server/browser'
+require 'scrapod/server/browser'
 
 require 'capybara/webkit/daemon/server/configuration'
 
-RSpec.describe Capybara::Webkit::Daemon::Server::Browser do
+RSpec.describe Scrapod::Server::Browser do
   subject { described_class.new configuration: configuration }
 
   let(:configuration) { Capybara::Webkit::Daemon::Server::Configuration.new }

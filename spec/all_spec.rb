@@ -19,7 +19,7 @@ require 'capybara/webkit/daemon/binary_messaging/inserter'
 require 'capybara/webkit/daemon/binary_messaging/extractor'
 
 require 'capybara/webkit/daemon/server/arguments'
-require 'capybara/webkit/daemon/server/browser'
+require 'scrapod/server/browser'
 require 'capybara/webkit/daemon/server/capybara_webkit_protocol_parser'
 require 'capybara/webkit/daemon/server/client'
 require 'capybara/webkit/daemon/server/client_to_server_wrapper'
