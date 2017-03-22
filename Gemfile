@@ -9,4 +9,5 @@ end
 # Specify your gem's dependencies in scrapod-server.gemspec
 gemspec
 
+# Scrapod data records in Redis.
 gem 'scrapod-redis', krowpu: 'scrapod-redis'
