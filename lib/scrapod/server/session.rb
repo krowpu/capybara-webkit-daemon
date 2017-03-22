@@ -2,6 +2,7 @@
 
 require 'scrapod/server/browser'
 require 'capybara/webkit/daemon/server/link'
+require 'scrapod/redis/session'
 
 module Scrapod
   module Server
@@ -23,7 +24,7 @@ module Scrapod
         set_browser
         set_link
 
-        @id = redis&.add_session started_at
+        @redis_session = Redis::Session.create self.redis.conn, started_at: started_at if self.redis
 
         @active = true
 
@@ -45,7 +46,7 @@ module Scrapod
 
           @active = false
 
-          redis&.delete_session @id
+          @redis_session&.destroy redis.conn
 
           @duration = duration
 

@@ -2,14 +2,12 @@
 
 require 'redis'
 
-require 'securerandom'
-
 module Capybara
   module Webkit
     module Daemon
       module Server
         class Redis
-          attr_reader :url
+          attr_reader :url, :conn
 
           def initialize(url)
             self.url = url
@@ -20,21 +18,7 @@ module Capybara
             conn.info('server')['redis_version']
           end
 
-          def add_session(started_at)
-            id = SecureRandom.uuid
-            conn.sadd 'sessions', id
-            conn.set "session:#{id}:started_at", started_at
-            id
-          end
-
-          def delete_session(id)
-            conn.srem 'sessions', id
-            conn.del "session:#{id}:started_at"
-          end
-
         private
-
-          attr_reader :conn
 
           def url=(value)
             raise TypeError, "expected url to be a #{String}" unless value.is_a? String
