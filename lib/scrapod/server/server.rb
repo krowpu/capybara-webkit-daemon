@@ -9,11 +9,14 @@ module Scrapod
     class Server < Capybara::Webkit::Server
       SERVER_PATH = Capybara::Webkit::Server::SERVER_PATH
 
+      attr_reader :path
       attr_reader :configuration
 
       attr_reader :stderr
 
       def initialize(configuration:)
+        self.path = SERVER_PATH
+
         @configuration = configuration
 
         super stderr: nil
@@ -44,6 +47,14 @@ module Scrapod
 
     private
 
+      def path=(path)
+        raise TypeError, "expected path to be a #{String}" unless path.is_a? String
+        path = File.expand_path path
+        raise ArgumentError, 'expected path to be a regular file'     unless File.file? path
+        raise ArgumentError, 'expected path to be an executable file' unless File.executable? path
+        @path = path.dup.freeze
+      end
+
       def close_mutex
         @close_mutex ||= Mutex.new
       end
@@ -61,7 +72,7 @@ module Scrapod
         @pipe_stdin,
           @pipe_stdout,
           @pipe_stderr,
-          @wait_thr = Open3.popen3 env, SERVER_PATH
+          @wait_thr = Open3.popen3 env, path
       end
 
       def env

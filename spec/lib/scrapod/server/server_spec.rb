@@ -7,7 +7,13 @@ require 'scrapod/server/configuration'
 require 'timeout'
 
 RSpec.describe Scrapod::Server::Server do
-  subject { described_class.new configuration: configuration }
+  subject do
+    stub_const 'Scrapod::Server::Server::SERVER_PATH', path
+
+    described_class.new configuration: configuration
+  end
+
+  let(:path) { File.expand_path '../../../fixtures/ping_pong_server', File.dirname(__FILE__) }
 
   let(:configuration) { Scrapod::Server::Configuration.new }
 
@@ -67,10 +73,10 @@ RSpec.describe Scrapod::Server::Server do
     it 'returns running server port number' do
       conn = TCPSocket.new '127.0.0.1', subject.port
 
-      conn.write "Version\n0\n"
+      conn.puts 'ping'
       conn.flush
 
-      expect(conn.gets).to eq "ok\n"
+      expect(conn.gets).to eq "pong\n"
     end
 
     context 'when server has been closed' do
@@ -90,7 +96,7 @@ RSpec.describe Scrapod::Server::Server do
     end
 
     it 'returns running server PID' do
-      expect(`ps -p #{subject.pid}`.lines.last.split.last).to eq 'webkit_server'
+      expect(File.expand_path(`ps -p #{subject.pid} -f`.lines.last.split.last)).to eq path
     end
 
     context 'when server has been closed' do
