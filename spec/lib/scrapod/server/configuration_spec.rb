@@ -3,7 +3,9 @@
 require 'scrapod/server/configuration'
 
 RSpec.describe Scrapod::Server::Configuration do
-  subject { described_class.new }
+  subject { described_class.new options }
+
+  let(:options) { {} }
 
   it { is_expected.to respond_to :help  }
   it { is_expected.to respond_to :help= }
@@ -35,9 +37,15 @@ RSpec.describe Scrapod::Server::Configuration do
   it { is_expected.to respond_to :redis_url  }
   it { is_expected.to respond_to :redis_url= }
 
-  describe '#help' do
-    it 'is false by default' do
-      expect(subject.help).to eq false
+  it 'is initialized with default options' do
+    expect(subject.to_h).to eq described_class::DEFAULTS
+  end
+
+  context 'when no options presents' do
+    subject { described_class.new }
+
+    it 'is initialized with default options' do
+      expect(subject.to_h).to eq described_class::DEFAULTS
     end
   end
 
@@ -50,12 +58,6 @@ RSpec.describe Scrapod::Server::Configuration do
     it 'converts true value to boolean' do
       subject.help = 123
       expect(subject.help).to eq true
-    end
-  end
-
-  describe '#config_file' do
-    it 'is nil by default' do
-      expect(subject.config_file).to eq nil
     end
   end
 end

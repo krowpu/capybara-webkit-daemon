@@ -31,8 +31,8 @@ module Scrapod
       attr_reader :max_session_duration
       attr_reader :redis_url
 
-      def initialize
-        DEFAULTS.each do |k, v|
+      def initialize(options = {})
+        DEFAULTS.merge(options).each do |k, v|
           send :"#{k}=", v
         end
       end
