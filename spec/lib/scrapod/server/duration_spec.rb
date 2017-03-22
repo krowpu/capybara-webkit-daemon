@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-require 'capybara/webkit/daemon/duration'
+require 'scrapod/server/duration'
 
-RSpec.describe Capybara::Webkit::Daemon::Duration do
+RSpec.describe Scrapod::Server::Duration do
   subject { described_class.new s }
 
   let(:s) { '2d7h15m53s' }

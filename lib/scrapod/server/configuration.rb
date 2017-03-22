@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'capybara/webkit/daemon/duration'
+require 'scrapod/server/duration'
 
 module Scrapod
   module Server
@@ -105,7 +105,7 @@ module Scrapod
           return
         end
 
-        @max_session_duration = Capybara::Webkit::Daemon::Duration.new(value).to_secs
+        @max_session_duration = Scrapod::Server::Duration.new(value).to_secs
       end
 
       def redis_url=(value)
