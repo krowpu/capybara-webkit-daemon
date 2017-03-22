@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'capybara/webkit/daemon/server/session'
+require 'scrapod/server/session'
 
 require 'capybara/webkit/daemon/server/client'
 require 'capybara/webkit/daemon/server/configuration'
@@ -8,7 +8,7 @@ require 'capybara/webkit/daemon/server/configuration'
 require 'timeout'
 require 'timecop'
 
-RSpec.describe Capybara::Webkit::Daemon::Server::Session do
+RSpec.describe Scrapod::Server::Session do
   subject { described_class.new client, configuration: configuration }
 
   let(:client) { Capybara::Webkit::Daemon::Server::Client.new client_socket }

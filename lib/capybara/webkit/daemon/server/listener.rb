@@ -5,7 +5,7 @@ require 'socket'
 require 'thread'
 
 require 'capybara/webkit/daemon/server/client'
-require 'capybara/webkit/daemon/server/session'
+require 'scrapod/server/session'
 
 module Capybara
   module Webkit
@@ -93,7 +93,7 @@ module Capybara
             logger.debug "New connection from #{client_socket.peeraddr.inspect}"
 
             client = Client.new client_socket
-            session = Session.new client, configuration: configuration, redis: redis
+            session = Scrapod::Server::Session.new client, configuration: configuration, redis: redis
 
             add_link session.link
             session.link.start
