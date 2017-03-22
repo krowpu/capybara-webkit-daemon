@@ -12,8 +12,6 @@ module Scrapod
       attr_reader :path
       attr_reader :configuration
 
-      attr_reader :stderr
-
       def initialize(configuration:)
         self.path = SERVER_PATH
 
