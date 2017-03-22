@@ -2,12 +2,12 @@
 
 require 'scrapod/server/connection'
 
-require 'capybara/webkit/daemon/server/configuration'
+require 'scrapod/server/configuration'
 
 RSpec.describe Scrapod::Server::Connection do
   subject { described_class.new configuration: configuration }
 
-  let(:configuration) { Capybara::Webkit::Daemon::Server::Configuration.new }
+  let(:configuration) { Scrapod::Server::Configuration.new }
 
   it { is_expected.not_to respond_to :port }
   it { is_expected.not_to respond_to :pid  }

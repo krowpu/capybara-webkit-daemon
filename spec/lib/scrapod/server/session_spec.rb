@@ -3,7 +3,7 @@
 require 'scrapod/server/session'
 
 require 'capybara/webkit/daemon/server/client'
-require 'capybara/webkit/daemon/server/configuration'
+require 'scrapod/server/configuration'
 
 require 'timeout'
 require 'timecop'
@@ -12,7 +12,7 @@ RSpec.describe Scrapod::Server::Session do
   subject { described_class.new client, configuration: configuration }
 
   let(:client) { Capybara::Webkit::Daemon::Server::Client.new client_socket }
-  let(:configuration) { Capybara::Webkit::Daemon::Server::Configuration.new }
+  let(:configuration) { Scrapod::Server::Configuration.new }
 
   let(:client_socket) { StringIO.new }
 

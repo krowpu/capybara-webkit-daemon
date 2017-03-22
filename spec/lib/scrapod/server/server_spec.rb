@@ -2,14 +2,14 @@
 
 require 'scrapod/server/server'
 
-require 'capybara/webkit/daemon/server/configuration'
+require 'scrapod/server/configuration'
 
 require 'timeout'
 
 RSpec.describe Scrapod::Server::Server do
   subject { described_class.new configuration: configuration }
 
-  let(:configuration) { Capybara::Webkit::Daemon::Server::Configuration.new }
+  let(:configuration) { Scrapod::Server::Configuration.new }
 
   describe '#active?' do
     it 'returns true' do

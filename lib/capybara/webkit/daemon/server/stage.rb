@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'capybara/webkit/daemon/server/configuration'
+require 'scrapod/server/configuration'
 require 'capybara/webkit/daemon/server/arguments'
 require 'capybara/webkit/daemon/server/environments'
 
@@ -30,7 +30,7 @@ module Capybara
         private
 
           def set_configuration
-            configuration = Configuration.new
+            configuration = Scrapod::Server::Configuration.new
 
             environments&.(configuration)
             arguments&.(configuration)

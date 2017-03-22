@@ -2,12 +2,12 @@
 
 require 'scrapod/server/browser'
 
-require 'capybara/webkit/daemon/server/configuration'
+require 'scrapod/server/configuration'
 
 RSpec.describe Scrapod::Server::Browser do
   subject { described_class.new configuration: configuration }
 
-  let(:configuration) { Capybara::Webkit::Daemon::Server::Configuration.new }
+  let(:configuration) { Scrapod::Server::Configuration.new }
 
   it 'provides interface for connection' do
     expect { subject.version.lines.first }.not_to raise_error
