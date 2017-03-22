@@ -2,8 +2,6 @@
 
 require 'capybara/webkit/daemon/duration'
 
-require 'capybara/webkit/daemon/common'
-
 module Scrapod
   module Server
     class Configuration
@@ -18,9 +16,9 @@ module Scrapod
         log_file: nil,
         log_level: :info,
         binding: nil,
-        port: Capybara::Webkit::Daemon::Common::DEFAULT_PORT,
+        port: 20_885,
         display: nil,
-        max_session_duration: Capybara::Webkit::Daemon::Common::DEFAULT_MAX_SESSION_DURATION,
+        max_session_duration: 5 * 60, # 5 minutes
         redis_url: nil,
       }.freeze
 

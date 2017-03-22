@@ -5,7 +5,6 @@
 require 'scrapod/server'
 require 'scrapod/server/version'
 
-require 'capybara/webkit/daemon/common'
 require 'capybara/webkit/daemon/duration'
 
 require 'capybara/webkit/daemon/redis'
