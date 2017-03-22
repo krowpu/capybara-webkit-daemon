@@ -38,10 +38,10 @@ Gem::Specification.new do |spec|
   spec.requirements << 'Qt WebKit'
   spec.requirements << 'Xvfb'
 
+  spec.add_runtime_dependency 'scrapod-redis'
+
   spec.add_runtime_dependency 'capybara',        '2.4.4'
   spec.add_runtime_dependency 'capybara-webkit', '1.11.1'
-
-  spec.add_runtime_dependency 'redis', '>= 4.0.0.rc1', '<= 5.0'
 
   spec.add_development_dependency 'bundler',   '~> 1.13'
   spec.add_development_dependency 'rake',      '~> 10.0'
