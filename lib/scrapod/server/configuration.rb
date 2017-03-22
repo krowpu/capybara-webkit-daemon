@@ -10,16 +10,16 @@ module Scrapod
       DISPLAY_RE = /\A:\d+\z/
 
       DEFAULTS = {
-        help: false,
-        config_file: nil,
-        pid_file: nil,
-        log_file: nil,
-        log_level: :info,
-        binding: nil,
-        port: 20_885,
-        display: nil,
+        help:                 false,
+        config_file:          nil,
+        pid_file:             nil,
+        log_file:             nil,
+        log_level:            :info,
+        binding:              nil,
+        port:                 20_885,
+        display:              nil,
         max_session_duration: 5 * 60, # 5 minutes
-        redis_url: nil,
+        redis_url:            nil,
       }.freeze
 
       attr_reader :help
