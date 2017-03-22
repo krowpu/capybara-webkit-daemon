@@ -7,7 +7,8 @@ port = rand 1024..65_535
 
 server = TCPServer.new port
 
-puts "Ping-pong server started, listening on port: #{port}"
+$stdout.puts "Ping-pong server started, listening on port: #{port}"
+$stdout.flush
 
 loop do
   Thread.start server.accept do |client|
