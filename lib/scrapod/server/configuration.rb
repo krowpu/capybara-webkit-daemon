@@ -43,6 +43,10 @@ module Scrapod
         end.to_h.freeze
       end
 
+      def ==(other)
+        to_h == other.to_h
+      end
+
       def help=(value)
         @help = !!value
       end

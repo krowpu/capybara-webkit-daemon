@@ -49,6 +49,16 @@ RSpec.describe Scrapod::Server::Configuration do
     end
   end
 
+  describe '#==' do
+    it 'returns true for similar configurations' do
+      expect(subject).to eq described_class.new options
+    end
+
+    it 'returns false for different configuration' do
+      expect(subject).not_to eq described_class.new options.merge help: !options[:help]
+    end
+  end
+
   describe '#help=' do
     it 'converts false value to boolean' do
       subject.help = nil
