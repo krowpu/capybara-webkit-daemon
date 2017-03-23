@@ -46,7 +46,7 @@ module Scrapod
 
           @active = false
 
-          @redis_session&.destroy redis.conn
+          @redis_session&.destroy
 
           @duration = duration
 
